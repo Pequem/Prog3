@@ -1,4 +1,4 @@
-package prog3;
+package prog3.Model;
 
 import java.util.Scanner;
 

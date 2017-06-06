@@ -1,9 +1,8 @@
-package prog3;
+package prog3.Model;
 
 public class Veiculo {
 	private String sigla;
 	private String nome;
-	private String tipo;
 	private double fatorDeImpacto;
 	private String issn;
 	public String getSigla() {
@@ -17,12 +16,6 @@ public class Veiculo {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 	public double getFatorDeImpacto() {
 		return fatorDeImpacto;
