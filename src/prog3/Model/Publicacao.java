@@ -102,7 +102,7 @@ public class Publicacao {
     public ArrayList<Docente> getAutores() {
         return autores;
     }
-
+   
     /**
      * @param autores the autores to set
      */
