@@ -3,14 +3,14 @@ package prog3.Model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Publicacao {
-	private Date ano;
-	private String titulo;
-	private int numero;
-	private int pagInicial;
-	private int pagFinal;
-	private ArrayList<Veiculo> veiculo;
-	private ArrayList<Docente> autores;
+abstract class Publicacao {
+	protected Date ano;
+	protected String titulo;
+	protected int numero;
+	protected int pagInicial;
+	protected int pagFinal;
+	protected ArrayList<Veiculo> veiculo;
+	protected ArrayList<Docente> autores;
 
     /**
      * @return the ano
