@@ -7,9 +7,7 @@ public class Qualificacao {
     private Veiculo veiculoQualificacao;
     
     
-    public Qualificacao(){
-         
-    }
+    
     public Qualificacao(int ano,Qualis qualis,Veiculo veiculoQualificacao){
         this.ano=ano;
         this.qualis=qualis;

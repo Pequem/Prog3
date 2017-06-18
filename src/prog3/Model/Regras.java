@@ -19,8 +19,17 @@ public class Regras {
     private Date dataFim;
     private int qtdAnos;
     private int pontuacaoMin;
-    private ArrayList<Pontuacao> listaPontuacao;
-    private Map<String,Qualis> listaQualis;//verificar essa associacao later on
+    private Map<Qualis,Pontuacao> qualisPontuacao;
     
-    
+    public Regras(double fatorMult,Date dataInicio,Date dataFim,int qtdAnos,
+            int pontuacaoMin,Map<Qualis,Pontuacao> qualisPontuacao){
+        this.fatorMult=fatorMult;
+        this.dataInicio=dataInicio;
+        this.dataFim=dataFim;
+        this.qtdAnos=qtdAnos;
+        this.pontuacaoMin=pontuacaoMin;
+        this.qualisPontuacao=qualisPontuacao;
+        
+        
+    }
 }
