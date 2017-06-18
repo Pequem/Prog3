@@ -5,10 +5,18 @@
  */
 package prog3.Model;
 
+import java.util.Map;
+
 /**
  *
  * @author rodri
  */
 public class Conferencia extends Publicacao {
     private String local;
+    
+    public Conferencia (String local, int ano,String titulo,int numero,Map<String,Veiculo> veiculo,
+                Map<Long,Docente> autores,int pagInicial,int pagFinal){
+        super(ano,titulo,numero,veiculo,autores,pagInicial,pagFinal);
+        this.local=local;
+    }
 }

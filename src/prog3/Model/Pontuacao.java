@@ -11,4 +11,5 @@ package prog3.Model;
  */
 public class Pontuacao {
     private int valor;
+    
 }

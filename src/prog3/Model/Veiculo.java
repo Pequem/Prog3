@@ -17,6 +17,13 @@ public class Veiculo {
         }
         
         
+        @Override
+        public String toString(){
+            
+            return sigla + " "+ nome + " "+ tipo +" "+ fatorDeImpacto +" " + issn ;
+        }
+        
+        
         
         
 }

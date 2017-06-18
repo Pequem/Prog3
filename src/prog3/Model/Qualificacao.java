@@ -1,8 +1,19 @@
 package prog3.Model;
 
-import java.util.Date;
 
 public class Qualificacao {
-	private Date ano;
-	
+    private int ano;
+    private Qualis qualis;
+    private Veiculo veiculoQualificacao;
+    
+    
+    public Qualificacao(){
+         
+    }
+    public Qualificacao(int ano,Qualis qualis,Veiculo veiculoQualificacao){
+        this.ano=ano;
+        this.qualis=qualis;
+        this.veiculoQualificacao=veiculoQualificacao;
+    }
+        
 }

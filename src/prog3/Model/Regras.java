@@ -7,6 +7,7 @@ package prog3.Model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 /**
  *
@@ -18,8 +19,8 @@ public class Regras {
     private Date dataFim;
     private int qtdAnos;
     private int pontuacaoMin;
-    private ArrayList<Pontuacao> pontuacao;
-    private ArrayList<Qualis> qualis;//verificar essa associacao later on
+    private ArrayList<Pontuacao> listaPontuacao;
+    private Map<String,Qualis> listaQualis;//verificar essa associacao later on
     
     
 }

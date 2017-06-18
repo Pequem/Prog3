@@ -21,7 +21,7 @@ public class Docente {
         @Override
         public String toString(){
             //precisa configurar a saida das datas 
-            return codigo + " "+ nome + " "+ nascimento +" "+ ingresso +" " + coordenador ;
+            return codigo + " "+ nome + " "+ nascimento +" "+ ingresso +" " + coordenador +". " ;
         }
         
         

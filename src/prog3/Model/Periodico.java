@@ -5,10 +5,19 @@
  */
 package prog3.Model;
 
+import java.util.Map;
+
 /**
  *
  * @author rodri
  */
 public class Periodico extends Publicacao{
     private int volume;
+    
+    public Periodico(int volume, int ano,String titulo,int numero,Map<String,Veiculo> veiculo,
+                Map<Long,Docente> autores,int pagInicial,int pagFinal){
+        super(ano,titulo,numero,veiculo,autores,pagInicial,pagFinal);
+        this.volume=volume;
+        
+    }
 }

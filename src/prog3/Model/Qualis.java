@@ -11,4 +11,9 @@ package prog3.Model;
  */
 public class Qualis {
     private String nome;
+    Pontuacao pontuacao;
+    
+    public Qualis(String nome){
+        this.nome=nome;
+    }
 }
