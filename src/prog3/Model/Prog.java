@@ -36,7 +36,7 @@ public class Prog {
             }
             
             
-            //---------------- LISTAS------------------
+            //---------------- LISTAS/HashMaps------------------
             //Scanner s = new Scanner(System.in);
 		//s.close();
             int anoCredenciamento;
@@ -59,6 +59,7 @@ public class Prog {
                 String id = args[j];
                 if(id.equals("-d")){
                     //docentes 
+                    
                     //Essa forma de leitura eh so p/ teste
                     csvFile = "C:\\Users\\user\\Documents\\NetBeansProjects\\Prog3-master\\Prog3\\src\\prog3\\Model\\docentes.csv";
 
