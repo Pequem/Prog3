@@ -32,4 +32,31 @@ public class Regras {
         
         
     }
+
+    public double getFatorMult() {
+        return fatorMult;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public int getQtdAnos() {
+        return qtdAnos;
+    }
+
+    public int getPontuacaoMin() {
+        return pontuacaoMin;
+    }
+
+    public Pontuacao getQualisPontuacao(Qualis q) {
+        return qualisPontuacao.get(q);
+    }
+    
+    
+    
 }

@@ -4,8 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Docente.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Qualificacao.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Conferencia.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Publicacao.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Periodico.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Qualis.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Pontuacao.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Prog.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Veiculo.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Prog3-master/Prog3/src/prog3/Model/Regras.java</file>
         </group>
     </open-files>
 </project-private>

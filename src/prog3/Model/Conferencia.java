@@ -14,7 +14,7 @@ import java.util.Map;
 public class Conferencia extends Publicacao {
     private String local;
     
-    public Conferencia (String local, int ano,String titulo,int numero,Map<String,Veiculo> veiculo,
+    public Conferencia (String local, int ano,String titulo,int numero,Veiculo veiculo,
                 Map<Long,Docente> autores,int pagInicial,int pagFinal){
         super(ano,titulo,numero,veiculo,autores,pagInicial,pagFinal);
         this.local=local;
