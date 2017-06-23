@@ -249,7 +249,10 @@ public class Prog {
  
                             String sPontos = token[3].trim();
                             String[] linePontos = sPontos.split(",");
- 
+                            
+                            
+                            /*Olhar mais sobre enum para limitar os valores dos qualis
+                            e ver se tem como criar um tipo de ordem entre eles*/
                             for(int i=0;i<lineQualis.length;i++){
                                 
                                 arrayPontuacao.add(new Pontuacao(Integer.parseInt(linePontos[i])));
@@ -269,8 +272,8 @@ public class Prog {
                         System.out.println("Erro de I/O");
 
                     }
- 
-
+                }else if(id.equals("-a")){
+                    
                 }
 
             }     

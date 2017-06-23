@@ -21,6 +21,20 @@ public class Pontuacao {
         this.valor=valor;
     }
 
+    public void setRegrasPontuacao(Regras regrasPontuacao) {
+        this.regrasPontuacao = regrasPontuacao;
+    }
+    
+    
+    public void setQualisPontuacoes(Qualis qualis){
+        if(qualisPontuacoes == null){
+            qualisPontuacoes = new ArrayList<>();
+        }
+        
+        qualisPontuacoes.add(qualis);
+ 
+    }
+
     public int getValor() {
         return valor;
     }
