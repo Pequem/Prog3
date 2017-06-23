@@ -14,24 +14,7 @@ public class Qualificacao {
         this.veiculoQualificacao=veiculoQualificacao;
     }
     
-    
-    public double pontuacaoVeiculo(int ano,Veiculo v,Regras reg){
-        double pontuacao = 0.0;
-        
-        //pega a pontuacao do qualis do veiculo
-       
-        Pontuacao pont = reg.getQualisPontuacao(qualis);
-
-        if(v.getTipo() =='P'){
-            pontuacao = v.getFatorDeImpacto()* reg.getFatorMult()* pont.getValor() ;
-        }
-        if(v.getTipo() == 'C'){
-             pontuacao = v.getFatorDeImpacto() * pont.getValor() ;
-        }
-
-        return pontuacao;
-    }    
-
+  
     
     public int getAno() {
         return ano;

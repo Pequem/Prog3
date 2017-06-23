@@ -240,32 +240,27 @@ public class Prog {
                             String sQualis = token[2].trim();
                             String[] lineQualis = sQualis.split(",");
  
-                            List<Qualis> arrayQualis = new ArrayList<>();
-                            List<Pontuacao> arrayPontuacao = new ArrayList<>();
+                            ArrayList<Qualis> arrayQualis = new ArrayList<>();
+                            ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
  
                             for(int i=0;i<lineQualis.length;i++){
-                              arrayQualis.add(new Qualis(lineQualis[i]));
+                                arrayQualis.add(new Qualis(lineQualis[i]));
                             }
  
                             String sPontos = token[3].trim();
                             String[] linePontos = sPontos.split(",");
  
                             for(int i=0;i<lineQualis.length;i++){
-                              arrayPontuacao.add(new Pontuacao(Integer.parseInt(linePontos[i])));
+                                
+                                arrayPontuacao.add(new Pontuacao(Integer.parseInt(linePontos[i])));
                             }
  
-                            Map<Qualis,Pontuacao> qualisPontuacao = new HashMap<>();
-                            
- 
-                            for(int i=0;i<lineQualis.length;i++){
-                              qualisPontuacao.put(arrayQualis.get(i),arrayPontuacao.get(i));
-                            }
  
                             double fm = numberFormat.parse(token[4].trim()).doubleValue();
                             int qtdAnos = Integer.parseInt(token[5].trim());
                             int ptMinima = Integer.parseInt(token[6].trim());
  
-                            regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,qualisPontuacao);
+                            regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,arrayPontuacao);
  
                         }
                         System.out.println("regras.csv lido!");
