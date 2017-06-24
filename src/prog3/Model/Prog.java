@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -206,7 +207,7 @@ public class Prog {
                                     || nomeQualis.equals("C")){
                             
                             Qualis qualis = Qualis.valueOf(nomeQualis);
-                            System.out.println(qualis.getNome());
+                            //System.out.println(qualis.getNome());
                             Qualificacao q1 = new Qualificacao(ano,qualis,veiculos.get(siglaVeiculo));
                             qualificacoes.add(q1);
                             
@@ -249,11 +250,17 @@ public class Prog {
                             
                             
                             for(int i=0;i<lineQualis.length;i++){
-                                Qualis qu1 = Qualis.valueOf(lineQualis[i]);
                                 Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
+                                Qualis qu1 = Qualis.valueOf(lineQualis[i]);
+                                Qualis qu2 = Qualis.valueOf(lineQualis[i]);
+                                if((i+1) < lineQualis.length){
+                                 qu2 = Qualis.valueOf(lineQualis[i+1]);
+                                }
+                                for(Qualis temp : EnumSet.range(qu1, qu2)){
+                                    pont.setQualisPontuacoes(temp);     
+                                }
+                                arrayPontuacao.add(pont);
                                 
-                                
-                                //pont.setQualisPontuacoes(qu1);
                             }
  
  
@@ -271,10 +278,16 @@ public class Prog {
 
                     }
                 }else if(id.equals("-a")){
-                    
+                    anoCredenciamento = Integer.parseInt(args[j+1]);
                 }
 
-            }     
+            } 
+           
+           
+           //escrita dos arquivos ???
+           
+           
+           
     
         
         
