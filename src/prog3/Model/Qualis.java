@@ -16,6 +16,8 @@ public class Qualis {
     private ArrayList<Qualificacao> qualificacoesQualis;
     private ArrayList<Pontuacao> pontuacoesQualis;
 
+   
+    
     public Qualis(String nome){
         this.nome=nome;
     }

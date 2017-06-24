@@ -243,19 +243,16 @@ public class Prog {
                             ArrayList<Qualis> arrayQualis = new ArrayList<>();
                             ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
  
-                            for(int i=0;i<lineQualis.length;i++){
-                                arrayQualis.add(new Qualis(lineQualis[i]));
-                            }
- 
                             String sPontos = token[3].trim();
                             String[] linePontos = sPontos.split(",");
                             
                             
-                            /*Olhar mais sobre enum para limitar os valores dos qualis
-                            e ver se tem como criar um tipo de ordem entre eles*/
                             for(int i=0;i<lineQualis.length;i++){
+                                Qualis qu1 = new Qualis(lineQualis[i]);
+                                Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
                                 
-                                arrayPontuacao.add(new Pontuacao(Integer.parseInt(linePontos[i])));
+                                
+                                pont.setQualisPontuacoes(qu1);
                             }
  
  
