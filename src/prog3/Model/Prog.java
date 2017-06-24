@@ -205,7 +205,8 @@ public class Prog {
                                     nomeQualis.equals("B4") || nomeQualis.equals("B5")
                                     || nomeQualis.equals("C")){
                             
-                            Qualis qualis = new Qualis(nomeQualis);
+                            Qualis qualis = Qualis.valueOf(nomeQualis);
+                            System.out.println(qualis.getNome());
                             Qualificacao q1 = new Qualificacao(ano,qualis,veiculos.get(siglaVeiculo));
                             qualificacoes.add(q1);
                             
@@ -248,11 +249,11 @@ public class Prog {
                             
                             
                             for(int i=0;i<lineQualis.length;i++){
-                                Qualis qu1 = new Qualis(lineQualis[i]);
+                                Qualis qu1 = Qualis.valueOf(lineQualis[i]);
                                 Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
                                 
                                 
-                                pont.setQualisPontuacoes(qu1);
+                                //pont.setQualisPontuacoes(qu1);
                             }
  
  

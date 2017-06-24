@@ -11,16 +11,27 @@ import java.util.ArrayList;
  *
  * @author user
  */
-public class Qualis {
+public enum Qualis {
+    A1("A1"),A2("A2"),B1("B1"),B2("B2"),B3("B3"),B4("B4"),B5("B5"),C("C");
+    
     private String nome;
     private ArrayList<Qualificacao> qualificacoesQualis;
     private ArrayList<Pontuacao> pontuacoesQualis;
 
    
     
-    public Qualis(String nome){
+    private Qualis(String nome){
         this.nome=nome;
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    
     
     public void setQualificacaoQualis(Qualificacao q){
         if(qualificacoesQualis == null){
