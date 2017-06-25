@@ -40,6 +40,7 @@ public class Controller {
     private ArrayList<Qualis> qualis = new ArrayList<>();
     private ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
     private Regras regras = new Regras();
+    private int anoCredenciamento;
 
     private final String cvsSplitBy = ";";
 
@@ -227,58 +228,65 @@ public class Controller {
         Locale ptBR = new Locale("pt", "BR");
         NumberFormat numberFormat = NumberFormat.getNumberInstance(ptBR);
         
-try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            line = br.readLine();
+    try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+                line = br.readLine();
 
-            while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy,'\n');
-                Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
-                Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
+                while ((line = br.readLine()) != null) {
+                    String[] token = line.split(cvsSplitBy,'\n');
+                    Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
+                    Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
 
-                String sQualis = token[2].trim();
-                String[] lineQualis = sQualis.split(",");
+                    String sQualis = token[2].trim();
+                    String[] lineQualis = sQualis.split(",");
 
-                ArrayList<Qualis> arrayQualis = new ArrayList<>();
-                ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
-                Map<Qualis,Pontuacao> mqp = new HashMap<>();
-                String sPontos = token[3].trim();
-                String[] linePontos = sPontos.split(",");
+                    ArrayList<Qualis> arrayQualis = new ArrayList<>();
+                    ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
+                    Map<Qualis,Pontuacao> mqp = new HashMap<>();
+                    String sPontos = token[3].trim();
+                    String[] linePontos = sPontos.split(",");
 
 
-                for(int i=0;i<lineQualis.length;i++){
-                    Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
-                    Qualis qu1 = Qualis.valueOf(lineQualis[i]);
-                    Qualis qu2 = Qualis.valueOf(lineQualis[i]);
-                    if((i+1) < lineQualis.length){
-                     qu2 = Qualis.valueOf(lineQualis[i+1]);
+                    for(int i=0;i<lineQualis.length;i++){
+                        Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
+                        Qualis qu1 = Qualis.valueOf(lineQualis[i]);
+                        Qualis qu2 = Qualis.valueOf(lineQualis[i]);
+                        if((i+1) < lineQualis.length){
+                         qu2 = Qualis.valueOf(lineQualis[i+1]);
+                        }
+                        for(Qualis temp : EnumSet.range(qu1, qu2)){
+                            pont.setQualisPontuacoes(temp);
+                            mqp.put(temp, pont);
+
+                        }
+
+
                     }
-                    for(Qualis temp : EnumSet.range(qu1, qu2)){
-                        pont.setQualisPontuacoes(temp);
-                        mqp.put(temp, pont);
 
-                    }
 
+                    double fm = numberFormat.parse(token[4].trim()).doubleValue();
+                    int qtdAnos = Integer.parseInt(token[5].trim());
+                    int ptMinima = Integer.parseInt(token[6].trim());
+
+                    regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,mqp);
 
                 }
 
+                System.out.println("regras.csv lido!");
+            } catch (IOException e) {
 
-                double fm = numberFormat.parse(token[4].trim()).doubleValue();
-                int qtdAnos = Integer.parseInt(token[5].trim());
-                int ptMinima = Integer.parseInt(token[6].trim());
+                System.out.println("Erro de I/O");
 
-                regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,mqp);
+            } catch (ParseException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception e){
 
             }
-                        
-            System.out.println("regras.csv lido!");
-        } catch (IOException e) {
-
-            System.out.println("Erro de I/O");
-
-        } catch (ParseException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception e){
-            
-        }
+    }
+    
+    
+    
+    public void ReadAnoCredenciamento(String ano){
+        
+        anoCredenciamento = Integer.parseInt(ano);
     }
 }

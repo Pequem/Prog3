@@ -24,34 +24,36 @@ public class Prog {
                 sempre organizalos antes de ler os arquivos
          */
         //LEITURA DOS ARQUIVOS
-        for (int j = 2; j < args.length;) {
+        for (int j = 2; j < args.length;j++) {
             switch (args[j]) {
                 case "-d":
                     c.ReadDocentes(args[++j]);
-                    j++;
+                    //j++;
                     break;
                 case "-v":
                     c.ReadVeiculos(args[++j]);
-                    j++;
+                    //j++;
                     break;
                 case "-p":
                     c.ReadPublicacoes(args[++j]);
-                    j++;
+                    //j++;
                     break;
                 case "-q":
                     c.ReadQualis(args[++j]);
-                    j++;
+                    //j++;
                     break;
                 case "-r":
                     c.ReadRegras(args[++j]);
-                    j++;
+                    //j++;
                     break;
                 case "-a":
+                    c.ReadAnoCredenciamento(args[++j]);
                     break;
                 default:
                     System.out.println("Comando " + args[j] + " é invalido");
                     return;
             }
         }
+        
     }
 }
