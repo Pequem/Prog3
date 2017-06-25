@@ -64,6 +64,14 @@ public class Veiculo {
         public String getIssn() {
             return issn;
         }
+
+    public ArrayList<Publicacao> getPublicacoesVeiculo() {
+        return publicacoesVeiculo;
+    }
+
+    public ArrayList<Qualificacao> getQualificacoesVeiculo() {
+        return qualificacoesVeiculo;
+    }
         
         
         

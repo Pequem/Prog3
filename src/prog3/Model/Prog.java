@@ -54,6 +54,7 @@ public class Prog {
                 sempre organizalos antes de ler os arquivos
             */
             //LEITURA DOS ARQUIVOS
+            // a forma de achar onde esta o arquivo vai mudar 
            for(int j=2;j<args.length;j=j+2){
                 String id = args[j];
                 
@@ -70,6 +71,7 @@ public class Prog {
                             //array de docentes criados pata store all of the docentes created.
  
                             long cod = Long.parseLong(token[0].trim());
+                            
                             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(token[2].trim());
                             Date date2 = new SimpleDateFormat("dd/MM/yyyy").parse(token[3].trim());
  
@@ -286,7 +288,8 @@ public class Prog {
            
            //escrita dos arquivos ???
            
-           
+           long cod = Long.parseLong("5297252436860003");
+           System.out.println(docentes.get(cod).getPublicacoesDocente().get(0).getVeiculo().getNome());
            
     
         

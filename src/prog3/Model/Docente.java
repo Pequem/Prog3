@@ -38,7 +38,58 @@ public class Docente {
                
         }
         
-	
+        public double getPontuacaoDocente(int ano, Regras regras){
+            ArrayList<Qualis> lq;
+            for (Publicacao tp : publicacoesDocente){
+                
+                lq = qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
+                //pegar o fator miltiplicador
+                //converter qualis nos pontos e somar
+            }
+            
+            
+            
+            return 0.0;
+        }
+        
+        private ArrayList<Qualis> qualisAnoPublicacao(Veiculo v,int ano, Regras r){
+            ArrayList<Qualis> lQualis = new ArrayList<>();
+            int anoInicio = ano - r.getQtdAnos();
+            
+            for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
+                if(qTemp.getAno() >= anoInicio){
+                    lQualis.add(qTemp.getQualis());
+                }
+            }
+            
+            return lQualis;
+        }
+
+    public long getCodigo() {
+        return codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Date getNascimento() {
+        return nascimento;
+    }
+
+    public Date getIngresso() {
+        return ingresso;
+    }
+
+    public boolean isCoordenador() {
+        return coordenador;
+    }
+
+    public ArrayList<Publicacao> getPublicacoesDocente() {
+        return publicacoesDocente;
+    }
+        
+    
 	
 	
 }

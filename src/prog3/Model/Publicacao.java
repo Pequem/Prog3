@@ -31,6 +31,34 @@ abstract class Publicacao {
       return autores.containsKey(cod);
     }
 
+    public int getAno() {
+        return ano;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public int getPagInicial() {
+        return pagInicial;
+    }
+
+    public int getPagFinal() {
+        return pagFinal;
+    }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public Map<Long, Docente> getAutores() {
+        return autores;
+    }
+
     
         
         
