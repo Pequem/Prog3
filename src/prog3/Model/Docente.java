@@ -40,29 +40,49 @@ public class Docente {
         
         public double getPontuacaoDocente(int ano, Regras regras){
             ArrayList<Qualis> lq;
+            double num2=0;
             for (Publicacao tp : publicacoesDocente){
                 
-                lq = qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
+                 num2 += qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
+                
+                 
                 //pegar o fator miltiplicador
                 //converter qualis nos pontos e somar
             }
-            
+            System.out.println(num2);
             
             
             return 0.0;
         }
         
-        private ArrayList<Qualis> qualisAnoPublicacao(Veiculo v,int ano, Regras r){
+        private double qualisAnoPublicacao(Veiculo v,int ano, Regras r){
             ArrayList<Qualis> lQualis = new ArrayList<>();
             int anoInicio = ano - r.getQtdAnos();
-            
+            double num=0;
+            if(v.getTipo() == 'P'){
+                
+                //ACERTAR ESSA PARTR O CALCULO ESTA ERRADO
             for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
                 if(qTemp.getAno() >= anoInicio){
-                    lQualis.add(qTemp.getQualis());
+                    num += (r.getFatorMult()* r.getPontuacoesRegras().get(qTemp.getQualis()).getValor());
+                    //System.out.println(num);
+                }
+                else{
+                    System.out.println("What's wrong??");
                 }
             }
-            
-            return lQualis;
+            }
+            else if(v.getTipo() == 'C'){
+               for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
+                if(qTemp.getAno() >= anoInicio){
+                    lQualis.add(qTemp.getQualis());
+                    num +=  r.getPontuacoesRegras().get(qTemp.getQualis()).getValor();
+                    //System.out.println(num);
+                } 
+            } 
+            }
+           
+            return num;
         }
 
     public long getCodigo() {

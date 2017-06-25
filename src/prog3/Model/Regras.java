@@ -19,10 +19,13 @@ public class Regras {
     private Date dataFim;
     private int qtdAnos;
     private int pontuacaoMin;
-    private ArrayList<Pontuacao> pontuacoesRegras;
+    private Map<Qualis,Pontuacao> pontuacoesRegras;
     
+    public Regras(){
+        
+    }
     public Regras(double fatorMult,Date dataInicio,Date dataFim,int qtdAnos,
-            int pontuacaoMin,ArrayList<Pontuacao> pontuacoesRegras){
+            int pontuacaoMin,Map<Qualis,Pontuacao> pontuacoesRegras){
         this.fatorMult=fatorMult;
         this.dataInicio=dataInicio;
         this.dataFim=dataFim;
@@ -53,7 +56,16 @@ public class Regras {
         return pontuacaoMin;
     }
 
- 
+    public Map<Qualis, Pontuacao> getPontuacoesRegras() {
+        return pontuacoesRegras;
+    }
+
+    public void printRegrasMapa(){
+        
+        for (Map.Entry <Qualis,Pontuacao> entry : pontuacoesRegras.entrySet()) {
+            System.out.println(entry.getKey()+" : "+entry.getValue().getValor());
+        }
+    }
     
     
     

@@ -40,7 +40,7 @@ public class Prog {
             //---------------- LISTAS/HashMaps------------------
             //Scanner s = new Scanner(System.in);
 		//s.close();
-            int anoCredenciamento;
+            int anoCredenciamento=0;
             String csvFile;
             String line="";
             String cvsSplitBy =";";
@@ -48,7 +48,7 @@ public class Prog {
             Map<String,Veiculo> veiculos = new HashMap<>();
             ArrayList<Publicacao> publicacoes = new ArrayList<>();
             ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
-            Regras regras;
+            Regras regras = new Regras();
             
             /*os parametros podem ser passados de qualquer forma
                 sempre organizalos antes de ler os arquivos
@@ -246,7 +246,7 @@ public class Prog {
  
                             ArrayList<Qualis> arrayQualis = new ArrayList<>();
                             ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
- 
+                            Map<Qualis,Pontuacao> mqp = new HashMap<>();
                             String sPontos = token[3].trim();
                             String[] linePontos = sPontos.split(",");
                             
@@ -259,9 +259,11 @@ public class Prog {
                                  qu2 = Qualis.valueOf(lineQualis[i+1]);
                                 }
                                 for(Qualis temp : EnumSet.range(qu1, qu2)){
-                                    pont.setQualisPontuacoes(temp);     
+                                    pont.setQualisPontuacoes(temp);
+                                    mqp.put(temp, pont);
+                                    
                                 }
-                                arrayPontuacao.add(pont);
+                                ;
                                 
                             }
  
@@ -270,7 +272,7 @@ public class Prog {
                             int qtdAnos = Integer.parseInt(token[5].trim());
                             int ptMinima = Integer.parseInt(token[6].trim());
  
-                            regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,arrayPontuacao);
+                            regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,mqp);
  
                         }
                         System.out.println("regras.csv lido!");
@@ -288,9 +290,9 @@ public class Prog {
            
            //escrita dos arquivos ???
            
-           long cod = Long.parseLong("5297252436860003");
-           System.out.println(docentes.get(cod).getPublicacoesDocente().get(0).getVeiculo().getNome());
-           
+           long cod = Long.parseLong("1688136556728644");
+           docentes.get(cod).getPontuacaoDocente(anoCredenciamento, regras);
+           //regras.printRegrasMapa();
     
         
         
