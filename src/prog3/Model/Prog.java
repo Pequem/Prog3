@@ -142,7 +142,7 @@ public class Prog {
                             Map<Long,Docente> listaAutores = new HashMap<>();
                             
                             for(int i=0;i<lineToken3.length;i++){
-                                listaAutores.put(Long.parseLong(lineToken3[i]),docentes.get(Long.parseLong(lineToken3[i])));
+                                listaAutores.put(Long.parseLong(lineToken3[i].trim()),docentes.get(Long.parseLong(lineToken3[i].trim())));
                             }
  
                             int numero = Integer.parseInt(token[4].trim());

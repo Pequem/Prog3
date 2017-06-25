@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class Controller {
     private ArrayList<Publicacao> publicacoes = new ArrayList<>();
     private ArrayList<Qualis> qualis = new ArrayList<>();
     private ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
-    private Regras regras;
+    private Regras regras = new Regras();
 
     private final String cvsSplitBy = ";";
 
@@ -183,33 +184,37 @@ public class Controller {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             line = br.readLine();
-
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(cvsSplitBy,'\n');
 
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
-                String nomeQualis = token[2].trim();
+                String nomeQualis =token[2].trim();
 
-                if (nomeQualis.equals("A1") || nomeQualis.equals("A2")
+                if(nomeQualis.equals("A1") || nomeQualis.equals("A2")
                         || nomeQualis.equals("B1") || nomeQualis.equals("B2")
-                        || nomeQualis.equals("B3")
-                        || nomeQualis.equals("B4") || nomeQualis.equals("B5")
-                        || nomeQualis.equals("C")) {
+                                || nomeQualis.equals("B3")||
+                        nomeQualis.equals("B4") || nomeQualis.equals("B5")
+                        || nomeQualis.equals("C")){
 
-                    Qualis qualis = new Qualis(nomeQualis);
-                    Qualificacao q1 = new Qualificacao(ano, qualis, veiculos.get(siglaVeiculo));
-                    qualificacoes.add(q1);
+                Qualis qualis = Qualis.valueOf(nomeQualis);
+                //System.out.println(qualis.getNome());
+                Qualificacao q1 = new Qualificacao(ano,qualis,veiculos.get(siglaVeiculo));
+                qualificacoes.add(q1);
 
-                    //adicionar as qualificacoes nos veiculos
-                    veiculos.get(siglaVeiculo).setQualificacoesVeiculo(q1);
+                //adicionar as qualificacoes nos veiculos
+                veiculos.get(siglaVeiculo).setQualificacoesVeiculo(q1);
 
-                } else {
-                    System.out.println("Qualis desconhecido para qualificação do veículo " + siglaVeiculo
-                            + " no ano " + ano + ": " + nomeQualis + ".");
+                }else{
+                    System.out.println("Qualis desconhecido para qualificação do veículo " + siglaVeiculo + 
+                            " no ano " + ano + ": " + nomeQualis +".");
                 }
 
+
+               
             }
+            
+         
             System.out.println("qualis.csv lido!");
         } catch (IOException e) {
 
@@ -221,11 +226,12 @@ public class Controller {
         String line;
         Locale ptBR = new Locale("pt", "BR");
         NumberFormat numberFormat = NumberFormat.getNumberInstance(ptBR);
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        
+try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             line = br.readLine();
 
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(cvsSplitBy,'\n');
                 Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
                 Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
 
@@ -234,28 +240,36 @@ public class Controller {
 
                 ArrayList<Qualis> arrayQualis = new ArrayList<>();
                 ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
-
-                for (int i = 0; i < lineQualis.length; i++) {
-                    arrayQualis.add(new Qualis(lineQualis[i]));
-                }
-
+                Map<Qualis,Pontuacao> mqp = new HashMap<>();
                 String sPontos = token[3].trim();
                 String[] linePontos = sPontos.split(",");
 
-                /*Olhar mais sobre enum para limitar os valores dos qualis
-                            e ver se tem como criar um tipo de ordem entre eles*/
-                for (int i = 0; i < lineQualis.length; i++) {
 
-                    arrayPontuacao.add(new Pontuacao(Integer.parseInt(linePontos[i])));
+                for(int i=0;i<lineQualis.length;i++){
+                    Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
+                    Qualis qu1 = Qualis.valueOf(lineQualis[i]);
+                    Qualis qu2 = Qualis.valueOf(lineQualis[i]);
+                    if((i+1) < lineQualis.length){
+                     qu2 = Qualis.valueOf(lineQualis[i+1]);
+                    }
+                    for(Qualis temp : EnumSet.range(qu1, qu2)){
+                        pont.setQualisPontuacoes(temp);
+                        mqp.put(temp, pont);
+
+                    }
+
+
                 }
+
 
                 double fm = numberFormat.parse(token[4].trim()).doubleValue();
                 int qtdAnos = Integer.parseInt(token[5].trim());
                 int ptMinima = Integer.parseInt(token[6].trim());
 
-                regras = new Regras(fm, dateInicio, dateFim, qtdAnos, ptMinima, arrayPontuacao);
+                regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,mqp);
 
             }
+                        
             System.out.println("regras.csv lido!");
         } catch (IOException e) {
 
