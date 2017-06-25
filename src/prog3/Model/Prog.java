@@ -68,7 +68,7 @@ public class Prog {
  
                             // usar o ; e \n como delimitador 
                             String[] token = line.split(cvsSplitBy,'\n');
-                            //array de docentes criados pata store all of the docentes created.
+                            //array de docentes criados para store all of the docentes created.
  
                             long cod = Long.parseLong(token[0].trim());
                             
@@ -263,7 +263,7 @@ public class Prog {
                                     mqp.put(temp, pont);
                                     
                                 }
-                                ;
+                                
                                 
                             }
  
