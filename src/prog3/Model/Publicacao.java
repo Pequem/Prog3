@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class Publicacao {
+public abstract class Publicacao {
 	private int ano;
 	private String titulo;
 	private int numero;

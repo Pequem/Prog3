@@ -17,7 +17,7 @@ public class Pontuacao {
     private ArrayList<Qualis> qualisPontuacoes;
     
 
-    Pontuacao(int valor) {
+    public Pontuacao(int valor) {
         this.valor=valor;
     }
 
