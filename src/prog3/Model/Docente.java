@@ -1,6 +1,8 @@
 package prog3.Model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Docente {
@@ -53,32 +55,67 @@ public class Docente {
                 }
                
             }
-            System.out.println(num2);
-            return 0.0;
+            //System.out.println(num2);
+            return num2;
         }
         
         private double qualisAnoPublicacao(Veiculo v,int ano, Regras r){
-            ArrayList<Qualis> lQualis = new ArrayList<>();
+           
             
             double num=0;
-            if(v.getTipo() == 'P'){
-                
-                for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
-
+           
+            for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
+                if(v.getTipo() == 'P'){
                     num += (r.getFatorMult()* r.getPontuacoesRegras().get(qTemp.getQualis()).getValor());
-                    
+                }
+                else if (v.getTipo() == 'C'){
+                    num += r.getPontuacoesRegras().get(qTemp.getQualis()).getValor();
                 }
             }
-            else if(v.getTipo() == 'C'){
-                
-               for(Qualificacao temp : v.getQualificacoesVeiculo()){
-                   
-                        num += r.getPontuacoesRegras().get(temp.getQualis()).getValor();
-                        
-                } 
-            }
+            
+            
            
             return num;
+        }
+        
+        
+        public void recredenciamento(int ano, double pontuacao,Regras r){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(nascimento);
+            int monthBirth = cal.get(Calendar.MONTH);
+            int yearBirth = cal.get(Calendar.YEAR);
+            
+            int AnoIngresso = Integer.parseInt(sdf.format(ingresso));
+            int subAno = ano - AnoIngresso;
+            
+            int idade = ano - yearBirth;
+            
+            //porque sempre a data eh 01/01/anoCredenciamento
+            if(monthBirth > 1){
+                idade = idade- 1;
+            }
+            
+            //DEPOIS ESCREVER EM UM ARQUIVO CSV 
+            if(coordenador == true){
+                
+                System.out.println(nome +" "+ pontuacao + " Coordenador");
+               
+            }
+            else if(subAno <  3){
+                System.out.println(nome +" "+ pontuacao + " PPJ");
+            }
+            else if(idade > 60){
+                System.out.println(nome +" "+ pontuacao + " PPS");
+            }
+            else if(pontuacao >= r.getPontuacaoMin()){
+                System.out.println(nome +" "+ pontuacao + " Sim"); 
+            }
+            else{
+                System.out.println(nome +" "+ pontuacao + " Nao");
+            }
+            
+            
         }
 
     public long getCodigo() {

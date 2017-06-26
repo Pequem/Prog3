@@ -291,8 +291,12 @@ public class Controller {
     }
     
     public void teste(){
-        long cod = Long.parseLong("4695002674556067");
-         docentes.get(cod).getPontuacaoDocente(anoCredenciamento, regras);
+        //organizar por onde alfabetica aqui 
+        
+        for(Map.Entry <Long,Docente> entry : docentes.entrySet()){
+            double pont  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
+            entry.getValue().recredenciamento(anoCredenciamento,pont , regras);
+        }
     }
   
 }
