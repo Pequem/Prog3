@@ -28,23 +28,18 @@ public class Prog {
             switch (args[j]) {
                 case "-d":
                     c.ReadDocentes(args[++j]);
-                    //j++;
                     break;
                 case "-v":
                     c.ReadVeiculos(args[++j]);
-                    //j++;
                     break;
                 case "-p":
                     c.ReadPublicacoes(args[++j]);
-                    //j++;
                     break;
                 case "-q":
                     c.ReadQualis(args[++j]);
-                    //j++;
                     break;
                 case "-r":
                     c.ReadRegras(args[++j]);
-                    //j++;
                     break;
                 case "-a":
                     c.ReadAnoCredenciamento(args[++j]);

@@ -292,7 +292,6 @@ public class Controller {
     
     
     public void ReadAnoCredenciamento(String ano){
-        
         anoCredenciamento = Integer.parseInt(ano);
     }
     
