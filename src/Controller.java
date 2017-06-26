@@ -298,10 +298,9 @@ public class Controller {
     
     public void teste(){
         
-        //organizar por onde alfabetica aqui 
         
-        Comparator <Long> comparator2 = new ValueComparator<Long, Docente>(docentes);
-        TreeMap<Long, Docente> result2 = new TreeMap<Long, Docente>(comparator2);
+        Comparator <Long> comparator2 = new ValueComparator<>(docentes);
+        TreeMap<Long, Docente> result2 = new TreeMap<>(comparator2);
 
 	result2.putAll(docentes); // estao ordenados em ordem alfabetica 
         
