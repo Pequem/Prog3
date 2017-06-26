@@ -290,7 +290,7 @@ public class Prog {
            
            //escrita dos arquivos ???
            
-           long cod = Long.parseLong("1688136556728644");
+           long cod = Long.parseLong("4695002674556067");
            docentes.get(cod).getPontuacaoDocente(anoCredenciamento, regras);
            //regras.printRegrasMapa();
     

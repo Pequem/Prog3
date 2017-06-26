@@ -289,4 +289,10 @@ public class Controller {
         
         anoCredenciamento = Integer.parseInt(ano);
     }
+    
+    public void teste(){
+        long cod = Long.parseLong("4695002674556067");
+         docentes.get(cod).getPontuacaoDocente(anoCredenciamento, regras);
+    }
+  
 }

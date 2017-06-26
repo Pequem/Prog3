@@ -41,45 +41,41 @@ public class Docente {
         public double getPontuacaoDocente(int ano, Regras regras){
             ArrayList<Qualis> lq;
             double num2=0;
-            for (Publicacao tp : publicacoesDocente){
-                
-                 num2 += qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
-                
-                 
-                //pegar o fator miltiplicador
-                //converter qualis nos pontos e somar
+            int anoInicio = ano - regras.getQtdAnos();
+            if(publicacoesDocente != null){
+                for (Publicacao tp : publicacoesDocente){
+                    
+                    if(tp.getAno() >= anoInicio){
+                    num2 += qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
+                    
+                    }
+                    //verificar se foi cadastrado ou nao 
+                }
+               
             }
             System.out.println(num2);
-            
-            
             return 0.0;
         }
         
         private double qualisAnoPublicacao(Veiculo v,int ano, Regras r){
             ArrayList<Qualis> lQualis = new ArrayList<>();
-            int anoInicio = ano - r.getQtdAnos();
+            
             double num=0;
             if(v.getTipo() == 'P'){
                 
-                //ACERTAR ESSA PARTR O CALCULO ESTA ERRADO
-            for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
-                if(qTemp.getAno() >= anoInicio){
+                for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
+
                     num += (r.getFatorMult()* r.getPontuacoesRegras().get(qTemp.getQualis()).getValor());
-                    //System.out.println(num);
+                    
                 }
-                else{
-                    System.out.println("What's wrong??");
-                }
-            }
             }
             else if(v.getTipo() == 'C'){
-               for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
-                if(qTemp.getAno() >= anoInicio){
-                    lQualis.add(qTemp.getQualis());
-                    num +=  r.getPontuacoesRegras().get(qTemp.getQualis()).getValor();
-                    //System.out.println(num);
+                
+               for(Qualificacao temp : v.getQualificacoesVeiculo()){
+                   
+                        num += r.getPontuacoesRegras().get(temp.getQualis()).getValor();
+                        
                 } 
-            } 
             }
            
             return num;

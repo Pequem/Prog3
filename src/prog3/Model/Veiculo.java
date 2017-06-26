@@ -37,11 +37,9 @@ public class Veiculo {
             
             if(qualificacoesVeiculo == null){
                 qualificacoesVeiculo = new ArrayList<>();
-                qualificacoesVeiculo.add(q);
             }
-            else{
-                qualificacoesVeiculo.add(q);
-            }
+             qualificacoesVeiculo.add(q);
+            
         }
         
         
