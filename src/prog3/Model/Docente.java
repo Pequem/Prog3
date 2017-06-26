@@ -3,9 +3,11 @@ package prog3.Model;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 
-public class Docente {
+public class Docente implements Comparable<Docente>{
 	private long codigo;
 	private String nome;
 	private Date nascimento;
@@ -117,6 +119,8 @@ public class Docente {
             
             
         }
+        
+        
 
     public long getCodigo() {
         return codigo;
@@ -140,6 +144,12 @@ public class Docente {
 
     public ArrayList<Publicacao> getPublicacoesDocente() {
         return publicacoesDocente;
+    }
+
+    @Override
+    public int compareTo(Docente anotherDocente) {
+    
+        return nome.compareTo(anotherDocente.getNome());
     }
         
     

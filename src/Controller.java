@@ -6,11 +6,14 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import prog3.Model.Conferencia;
@@ -21,6 +24,7 @@ import prog3.Model.Publicacao;
 import prog3.Model.Qualificacao;
 import prog3.Model.Qualis;
 import prog3.Model.Regras;
+import prog3.Model.ValueComparator;
 import prog3.Model.Veiculo;
 
 /*
@@ -35,6 +39,7 @@ import prog3.Model.Veiculo;
 public class Controller {
 
     private Map<Long, Docente> docentes = new HashMap<>();
+    private ArrayList<Docente> listaDocentes = new ArrayList<>();
     private Map<String, Veiculo> veiculos = new HashMap<>();
     private ArrayList<Publicacao> publicacoes = new ArrayList<>();
     private ArrayList<Qualis> qualis = new ArrayList<>();
@@ -70,6 +75,7 @@ public class Controller {
                         System.out.println("Código repetido para Docente " + cod);
                     } else {
                         docentes.put(cod, new Docente(cod, token[1], date1, date2, coord));
+                        listaDocentes.add(new Docente(cod, token[1], date1, date2, coord));
                     }
                 } catch (ParseException ex) {
                     return false;
@@ -291,9 +297,15 @@ public class Controller {
     }
     
     public void teste(){
+        
         //organizar por onde alfabetica aqui 
         
-        for(Map.Entry <Long,Docente> entry : docentes.entrySet()){
+        Comparator <Long> comparator2 = new ValueComparator<Long, Docente>(docentes);
+        TreeMap<Long, Docente> result2 = new TreeMap<Long, Docente>(comparator2);
+
+	result2.putAll(docentes); // estao ordenados em ordem alfabetica 
+        
+        for(Map.Entry <Long,Docente> entry : result2.entrySet()){
             double pont  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
             entry.getValue().recredenciamento(anoCredenciamento,pont , regras);
         }
