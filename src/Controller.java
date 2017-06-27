@@ -305,9 +305,11 @@ public class Controller {
 	mapDocentesOrdenado.putAll(docentes); // estao ordenados em ordem alfabetica 
         FileWriter fileWriter = null;
         try{
-            fileWriter = new FileWriter("1-recrendenciamento.csv ");
-            fileWriter.append("");
-        
+            fileWriter = new FileWriter("1-recrendenciamento.csv");
+            //cabeçalho do arquivo csv
+            fileWriter.append("Docente;Pontuação;Recredenciado?");
+            fileWriter.append("\n");
+            
             for(Map.Entry <Long,Docente> entry : mapDocentesOrdenado.entrySet()){
                 double pontuacao  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
 
@@ -321,7 +323,7 @@ public class Controller {
                 String sPonto = String.format("%.1f", pontuacao);
 
 
-                //DEPOIS ESCREVER EM UM ARQUIVO CSV 
+                //Escrita linha por linha segundo regras 
                 if(entry.getValue().isCoordenador() == true){
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
@@ -329,7 +331,7 @@ public class Controller {
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("Coordenador");
                     fileWriter.append("\n");
-                    //System.out.println(nome +" "+ pontuacao + " Coordenador");
+                    
 
                 }
                 else if(subAno <  3){
@@ -339,7 +341,7 @@ public class Controller {
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("PPJ");
                     fileWriter.append("\n");
-                    //System.out.println(nome +" "+ pontuacao + " PPJ");
+                   
                 }
                 else if(idade > 60){
                     fileWriter.append(entry.getValue().getNome());
@@ -348,7 +350,7 @@ public class Controller {
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("PPS");
                     fileWriter.append("\n");
-                    //System.out.println(nome +" "+ pontuacao + " PPS");
+                    
                 }
                 else if(pontuacao >= regras.getPontuacaoMin()){
                     fileWriter.append(entry.getValue().getNome());
@@ -357,19 +359,19 @@ public class Controller {
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("Sim");
                     fileWriter.append("\n");
-                    //System.out.println(nome +" "+ pontuacao + " Sim"); 
+                    
                 }
                 else{
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append(sPonto);
                     fileWriter.append(cvsSplitBy);
-                    fileWriter.append("Nao");
+                    fileWriter.append("Não");
                     fileWriter.append("\n");
-                    //System.out.println(nome +" "+ pontuacao + " Nao");
+                    
                 }
 
-                //entry.getValue().recredenciamento(anoCredenciamento,pont , regras,fileWriter);
+                
             }
         
         }
