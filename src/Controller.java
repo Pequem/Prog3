@@ -297,7 +297,7 @@ public class Controller {
         anoCredenciamento = Integer.parseInt(ano);
     }
     
-    public void WriteRecrecenciamentoFile(){
+    public void WriteRecredenciamentoFile(){
         
         Comparator <Long> comparator2 = new ValueComparator<>(docentes);
         TreeMap<Long, Docente> mapDocentesOrdenado = new TreeMap<>(comparator2);
