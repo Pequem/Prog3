@@ -53,7 +53,7 @@ public class Docente implements Comparable<Docente>{
                 for (Publicacao tp : publicacoesDocente){
                     
                     if(tp.getAno() >= anoInicio && tp.getAno() < ano){
-                    num2 += qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
+                    num2 += calcularPontosQualificacoesVeiculo(tp.getVeiculo(),ano,regras);
                     
                     }
                     //verificar se foi cadastrado ou nao 
@@ -64,7 +64,7 @@ public class Docente implements Comparable<Docente>{
             return num2;
         }
         
-        private double qualisAnoPublicacao(Veiculo v,int ano, Regras r){
+        private double calcularPontosQualificacoesVeiculo(Veiculo v,int ano, Regras r){
            
             
             double num=0;
