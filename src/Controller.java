@@ -300,12 +300,11 @@ public class Controller {
         
         
         Comparator <Long> comparator2 = new ValueComparator<>(docentes);
-        TreeMap<Long, Docente> result2 = new TreeMap<>(comparator2);
+        TreeMap<Long, Docente> mapDocentesOrdenado = new TreeMap<>(comparator2);
 
-	result2.putAll(docentes); // estao ordenados em ordem alfabetica 
-        regras.printRegrasMapa();
+	mapDocentesOrdenado.putAll(docentes); // estao ordenados em ordem alfabetica 
         
-        for(Map.Entry <Long,Docente> entry : result2.entrySet()){
+        for(Map.Entry <Long,Docente> entry : mapDocentesOrdenado.entrySet()){
             double pont  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
             entry.getValue().recredenciamento(anoCredenciamento,pont , regras);
         }
