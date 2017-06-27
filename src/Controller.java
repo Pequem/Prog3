@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -394,7 +395,68 @@ public class Controller {
     }
     
     public void WriteListaPublicacoes(){
+        /*
+        ArrayList<Qualificacao> _qualificacoes;
+        Qualificacao _qualificacao = new Qualificacao();
+        ArrayList<Veiculo> _veiculos = new ArrayList();
+        Veiculo _veiculo = new Veiculo();
+        for(Qualis _q:Qualis.values()){
+            _qualificacoes = _qualificacao.getAllByQuali(_q, this.qualificacoes);
+            for(Qualificacao _qualificacao1: _qualificacoes){
+                
+            }
+        }
+        */
+        publicacoes.sort(new Comparator<Publicacao>(){
+            @Override
+            public int compare(Publicacao p1, Publicacao p2) {
+                return p2.getTitulo().compareTo(p1.getTitulo());
+            }
+            
+        });
         
+        publicacoes.sort(new Comparator<Publicacao>(){
+            @Override
+            public int compare(Publicacao p1, Publicacao p2) {
+                return p1.getVeiculo().getSigla().compareTo(p2.getVeiculo().getSigla());
+            }
+            
+        });
+        
+        publicacoes.sort(new Comparator<Publicacao>(){
+            @Override
+            public int compare(Publicacao p1, Publicacao p2) {
+                return p2.getAno() - p1.getAno();
+            }
+            
+        });
+        
+        publicacoes.sort(new Comparator<Publicacao>(){
+            @Override
+            public int compare(Publicacao p1, Publicacao p2) {
+                return p1.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().compareTo(p2.getVeiculo().getQualificacoesVeiculo().get(0).getQualis());
+            }
+            
+        });
+        try {
+            FileWriter f = new FileWriter("2-publicacoes.csv");
+            f.append("Ano"+cvsSplitBy+"Sigla Veículo"+cvsSplitBy+"Veículo"+
+                    cvsSplitBy+"Qualis"+cvsSplitBy+"Fator de Impacto"+cvsSplitBy
+                    +"Título"+cvsSplitBy+"Docentes\n");
+            
+            for(Publicacao _p: publicacoes){
+                f.append(_p.getAno()+cvsSplitBy+_p.getVeiculo().getSigla()+cvsSplitBy+
+                        _p.getVeiculo().getNome()+cvsSplitBy+_p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
+                +cvsSplitBy+_p.getVeiculo().getFatorDeImpacto()+cvsSplitBy+_p.getTitulo()+cvsSplitBy);
+                for(Map.Entry <Long, Docente> _d: _p.getAutores().entrySet()){
+                    f.append(_d.getValue().getNome()+",");
+                }
+                f.append("\n");
+            }
+            f.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
   

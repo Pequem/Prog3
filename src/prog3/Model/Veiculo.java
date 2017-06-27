@@ -1,6 +1,7 @@
 package prog3.Model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Veiculo {
 	private String sigla;
@@ -11,7 +12,10 @@ public class Veiculo {
         private ArrayList<Publicacao> publicacoesVeiculo;
         private ArrayList<Qualificacao> qualificacoesVeiculo;
         
-	
+	public Veiculo(){
+        
+        }
+        
         public Veiculo(String sigla,String nome,char tipo,double fatorDeImpacto,String issn){
             this.sigla=sigla;
             this.nome=nome;
@@ -69,11 +73,6 @@ public class Veiculo {
 
     public ArrayList<Qualificacao> getQualificacoesVeiculo() {
         return qualificacoesVeiculo;
-    }
-        
-        
-        
-        
-        
+    }    
         
 }
