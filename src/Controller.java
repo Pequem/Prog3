@@ -42,7 +42,6 @@ import prog3.Model.Veiculo;
 public class Controller {
 
     private Map<Long, Docente> docentes = new HashMap<>();
-    private ArrayList<Docente> listaDocentes = new ArrayList<>();
     private Map<String, Veiculo> veiculos = new HashMap<>();
     private ArrayList<Publicacao> publicacoes = new ArrayList<>();
     private ArrayList<Qualis> qualis = new ArrayList<>();
@@ -78,7 +77,6 @@ public class Controller {
                         System.out.println("Código repetido para Docente " + cod);
                     } else {
                         docentes.put(cod, new Docente(cod, token[1], date1, date2, coord));
-                        listaDocentes.add(new Docente(cod, token[1], date1, date2, coord));
                     }
                 } catch (ParseException ex) {
                     return false;
@@ -300,10 +298,18 @@ public class Controller {
     
     public void WriteRecredenciamentoFile(){
         
-        Comparator <Long> comparator2 = new ValueComparator<>(docentes);
+        //faz uma copia de docentes para docentesOrdem
+        Map<Long, Docente> docentesOrdem = new HashMap<>();
+        for (Map.Entry<Long, Docente> entrada : docentes.entrySet()) {
+            docentesOrdem.put(entrada.getKey(),entrada.getValue());
+        }
+        
+        Comparator <Long> comparator2 = new ValueComparator<>(docentesOrdem);
         TreeMap<Long, Docente> mapDocentesOrdenado = new TreeMap<>(comparator2);
-
-	mapDocentesOrdenado.putAll(docentes); // estao ordenados em ordem alfabetica 
+        
+        
+        
+	mapDocentesOrdenado.putAll(docentesOrdem); // estao ordenados em ordem alfabetica
         FileWriter fileWriter = null;
         try{
             fileWriter = new FileWriter("1-recrendenciamento.csv");

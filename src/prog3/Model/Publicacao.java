@@ -59,7 +59,22 @@ public abstract class Publicacao {
         return autores;
     }
 
-    
+    public double calcularPontosQualificacoesVeiculo(Veiculo v,int ano, Regras r){
+                
+            double num=0;
+           
+            for(Qualificacao qTemp : v.getQualificacoesVeiculo()){
+                if(v.getTipo() == 'P'){
+                    num += (r.getFatorMult()* r.getPontuacoesRegras().get(qTemp.getQualis()).getValor());
+                }
+                else if (v.getTipo() == 'C'){
+                    num += r.getPontuacoesRegras().get(qTemp.getQualis()).getValor();
+                }
+            }
+            
+ 
+            return num;
+    }
         
         
 }
