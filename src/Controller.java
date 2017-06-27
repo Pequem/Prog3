@@ -303,11 +303,13 @@ public class Controller {
         TreeMap<Long, Docente> result2 = new TreeMap<>(comparator2);
 
 	result2.putAll(docentes); // estao ordenados em ordem alfabetica 
+        regras.printRegrasMapa();
         
         for(Map.Entry <Long,Docente> entry : result2.entrySet()){
             double pont  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
             entry.getValue().recredenciamento(anoCredenciamento,pont , regras);
         }
+        
     }
   
 }

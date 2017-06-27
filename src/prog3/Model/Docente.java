@@ -49,7 +49,7 @@ public class Docente implements Comparable<Docente>{
             if(publicacoesDocente != null){
                 for (Publicacao tp : publicacoesDocente){
                     
-                    if(tp.getAno() >= anoInicio){
+                    if(tp.getAno() >= anoInicio && tp.getAno() < ano){
                     num2 += qualisAnoPublicacao(tp.getVeiculo(),ano,regras);
                     
                     }
@@ -94,9 +94,7 @@ public class Docente implements Comparable<Docente>{
             int idade = ano - yearBirth;
             
             //porque sempre a data eh 01/01/anoCredenciamento
-            if(monthBirth > 1){
-                idade = idade- 1;
-            }
+            
             
             //DEPOIS ESCREVER EM UM ARQUIVO CSV 
             if(coordenador == true){
