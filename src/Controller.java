@@ -395,18 +395,6 @@ public class Controller {
     }
     
     public void WriteListaPublicacoes(){
-        /*
-        ArrayList<Qualificacao> _qualificacoes;
-        Qualificacao _qualificacao = new Qualificacao();
-        ArrayList<Veiculo> _veiculos = new ArrayList();
-        Veiculo _veiculo = new Veiculo();
-        for(Qualis _q:Qualis.values()){
-            _qualificacoes = _qualificacao.getAllByQuali(_q, this.qualificacoes);
-            for(Qualificacao _qualificacao1: _qualificacoes){
-                
-            }
-        }
-        */
         publicacoes.sort(new Comparator<Publicacao>(){
             @Override
             public int compare(Publicacao p1, Publicacao p2) {
