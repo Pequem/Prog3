@@ -50,6 +50,6 @@ public class Prog {
             }
         }
         
-       c.teste();
+       c.WriteRecrecenciamentoFile();
     }
 }

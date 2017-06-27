@@ -1,11 +1,13 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -295,19 +297,98 @@ public class Controller {
         anoCredenciamento = Integer.parseInt(ano);
     }
     
-    public void teste(){
-        
+    public void WriteRecrecenciamentoFile(){
         
         Comparator <Long> comparator2 = new ValueComparator<>(docentes);
         TreeMap<Long, Docente> mapDocentesOrdenado = new TreeMap<>(comparator2);
 
 	mapDocentesOrdenado.putAll(docentes); // estao ordenados em ordem alfabetica 
+        FileWriter fileWriter = null;
+        try{
+            fileWriter = new FileWriter("1-recrendenciamento.csv ");
+            fileWriter.append("");
         
-        for(Map.Entry <Long,Docente> entry : mapDocentesOrdenado.entrySet()){
-            double pont  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
-            entry.getValue().recredenciamento(anoCredenciamento,pont , regras);
+            for(Map.Entry <Long,Docente> entry : mapDocentesOrdenado.entrySet()){
+                double pontuacao  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(entry.getValue().getNascimento());
+                int yearBirth = cal.get(Calendar.YEAR);
+                int AnoIngresso = Integer.parseInt(sdf.format(entry.getValue().getIngresso()));
+                int subAno = anoCredenciamento - AnoIngresso;
+                int idade = anoCredenciamento - yearBirth;
+                String sPonto = String.format("%.1f", pontuacao);
+
+
+                //DEPOIS ESCREVER EM UM ARQUIVO CSV 
+                if(entry.getValue().isCoordenador() == true){
+                    fileWriter.append(entry.getValue().getNome());
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(sPonto);
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append("Coordenador");
+                    fileWriter.append("\n");
+                    //System.out.println(nome +" "+ pontuacao + " Coordenador");
+
+                }
+                else if(subAno <  3){
+                    fileWriter.append(entry.getValue().getNome());
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(sPonto);
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append("PPJ");
+                    fileWriter.append("\n");
+                    //System.out.println(nome +" "+ pontuacao + " PPJ");
+                }
+                else if(idade > 60){
+                    fileWriter.append(entry.getValue().getNome());
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(sPonto);
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append("PPS");
+                    fileWriter.append("\n");
+                    //System.out.println(nome +" "+ pontuacao + " PPS");
+                }
+                else if(pontuacao >= regras.getPontuacaoMin()){
+                    fileWriter.append(entry.getValue().getNome());
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(sPonto);
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append("Sim");
+                    fileWriter.append("\n");
+                    //System.out.println(nome +" "+ pontuacao + " Sim"); 
+                }
+                else{
+                    fileWriter.append(entry.getValue().getNome());
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(sPonto);
+                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append("Nao");
+                    fileWriter.append("\n");
+                    //System.out.println(nome +" "+ pontuacao + " Nao");
+                }
+
+                //entry.getValue().recredenciamento(anoCredenciamento,pont , regras,fileWriter);
+            }
+        
         }
-        
+        catch (Exception e){
+            
+            System.out.println("Erro de I/O");
+            
+        }
+        finally{
+            try{
+                fileWriter.flush();
+                fileWriter.close();
+            }
+            catch (IOException e) {
+                System.out.println("Erro de I/O");
+                e.printStackTrace();
+            }
+  
+        }
     }
   
 }

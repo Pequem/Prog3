@@ -1,5 +1,8 @@
 package prog3.Model;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -80,43 +83,6 @@ public class Docente implements Comparable<Docente>{
             return num;
         }
         
-        
-        public void recredenciamento(int ano, double pontuacao,Regras r){
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(nascimento);
-            int monthBirth = cal.get(Calendar.MONTH);
-            int yearBirth = cal.get(Calendar.YEAR);
-            
-            int AnoIngresso = Integer.parseInt(sdf.format(ingresso));
-            int subAno = ano - AnoIngresso;
-            
-            int idade = ano - yearBirth;
-            
-            //porque sempre a data eh 01/01/anoCredenciamento
-            
-            
-            //DEPOIS ESCREVER EM UM ARQUIVO CSV 
-            if(coordenador == true){
-                
-                System.out.println(nome +" "+ pontuacao + " Coordenador");
-               
-            }
-            else if(subAno <  3){
-                System.out.println(nome +" "+ pontuacao + " PPJ");
-            }
-            else if(idade > 60){
-                System.out.println(nome +" "+ pontuacao + " PPS");
-            }
-            else if(pontuacao >= r.getPontuacaoMin()){
-                System.out.println(nome +" "+ pontuacao + " Sim"); 
-            }
-            else{
-                System.out.println(nome +" "+ pontuacao + " Nao");
-            }
-            
-            
-        }
         
         
 
