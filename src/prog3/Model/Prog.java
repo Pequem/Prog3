@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Prog {
 	
-	public static void main(String[] args) throws ParseException{
+	public static void maain(String[] args) throws ParseException{
             
             Locale ptBR = new Locale( "pt", "BR" ); 
             NumberFormat numberFormat =  NumberFormat.getNumberInstance(ptBR); 
