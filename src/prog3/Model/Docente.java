@@ -19,9 +19,7 @@ public class Docente implements Comparable<Docente>{
 	private boolean coordenador;
         private ArrayList<Publicacao> publicacoesDocente; 
         
-	public Docente(){
-            
-        }
+
         public Docente(long codigo, String nome, Date nascimento, Date ingresso, boolean coordenador){
             this.codigo = codigo;
             this.nome = nome;

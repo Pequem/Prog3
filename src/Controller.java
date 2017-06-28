@@ -480,7 +480,7 @@ public class Controller {
         try{
             FileWriter f = new FileWriter("3-estatisticas.csv");
             
-            f.append("Qualis"+cvsSplitBy+"Qtd. Artigos"+cvsSplitBy+"Média Artigos / Doecente\n");
+            f.append("Qualis"+cvsSplitBy+"Qtd. Artigos"+cvsSplitBy+"Média Artigos / Docente\n");
             
             for(Qualis q: Qualis.values()){
                
