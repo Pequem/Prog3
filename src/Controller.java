@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -462,6 +461,23 @@ public class Controller {
             f.close();
         } catch (IOException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void WriteStatistics(){
+        ArrayList<Publicacao> pArray = null;
+        
+        try{
+            FileWriter f = new FileWriter("3-estatisticas.csv");
+            
+            f.append("Qualis"+cvsSplitBy+"Qtd. Artigos"+cvsSplitBy+"Média Artigos / Doecentes\n");
+            for(Qualis q: qualis){
+                pArray = publicacoes.get(0).getAllByQualis(q, publicacoes);
+                f.append(q.getNome()+cvsSplitBy+pArray.size()+"\n");
+            }
+            f.close();
+        }catch(IOException ex){
+            
         }
     }
     
