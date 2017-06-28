@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,16 +19,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import prog3.Model.Conferencia;
-import prog3.Model.Docente;
-import prog3.Model.Periodico;
-import prog3.Model.Pontuacao;
-import prog3.Model.Publicacao;
-import prog3.Model.Qualificacao;
-import prog3.Model.Qualis;
-import prog3.Model.Regras;
-import prog3.Model.ValueComparator;
-import prog3.Model.Veiculo;
+import prog3.Model.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -50,11 +42,11 @@ public class Controller {
 
     private final String cvsSplitBy = ";";
 
-    public Controller(){
-        
+    public Controller() {
+
     }
-    
-    public Controller(String d,String v,String p,String q,String r,String a){
+
+    public Controller(String d, String v, String p, String q, String r, String a) throws CustomException {
         ReadDocentes(d);
         ReadVeiculos(v);
         ReadPublicacoes(p);
@@ -62,8 +54,8 @@ public class Controller {
         ReadRegras(r);
         ReadAnoCredenciamento(a);
     }
-    
-    public boolean ReadDocentes(String csvFile) {
+
+    public void ReadDocentes(String csvFile) throws CustomException {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             line = br.readLine();
@@ -86,26 +78,21 @@ public class Controller {
                     }
 
                     if (docentes.containsKey(cod)) {
-                        System.out.println("Código repetido para Docente " + cod);
+                        throw new CustomException("Código repetido para Docente " + cod);
                     } else {
                         docentes.put(cod, new Docente(cod, token[1], date1, date2, coord));
                     }
                 } catch (ParseException ex) {
-                    return false;
+                    throw new CustomException("Erro de formatação");
                 }
-                
+
             }
-            System.out.println("docentes.csv lido!");
         } catch (IOException e) {
-
-            System.out.println("Erro de I/O");
-            return false;
-
+            throw new CustomException("Erro de I/O");
         }
-        return true;
     }
 
-    public void ReadVeiculos(String csvFile) {
+    public void ReadVeiculos(String csvFile) throws CustomException {
         String line;
         Locale ptBR = new Locale("pt", "BR");
         NumberFormat numberFormat = NumberFormat.getNumberInstance(ptBR);
@@ -124,21 +111,21 @@ public class Controller {
                     String issn = token[4].trim();
 
                     if (veiculos.containsKey(sigla)) {
-                        System.out.println("Código repetido para Veiculo " + sigla);
+                        throw new CustomException("Código repetido para Veiculo " + sigla);
                     } else {
                         veiculos.put(sigla, new Veiculo(sigla, nome, tipo, fdi, issn));
                     }
                 } catch (ParseException ex) {
+                    throw new CustomException("Erro de formatação");
                 }
 
             }
-            System.out.println("veiculos.csv lido!");
         } catch (IOException e) {
-            System.out.println("Erro de I/O");
+            throw new CustomException("Erro de I/O");
         }
     }
 
-    public void ReadPublicacoes(String csvFile) {
+    public void ReadPublicacoes(String csvFile) throws CustomException {
         String line;
         Docente d = null;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -158,8 +145,8 @@ public class Controller {
 
                 for (int i = 0; i < lineToken3.length; i++) {
                     d = docentes.get(Long.parseLong(lineToken3[i]));
-                    if(!listaAutores.contains(d)){
-                    listaAutores.add(d);
+                    if (!listaAutores.contains(d)) {
+                        listaAutores.add(d);
                     }
                 }
 
@@ -196,146 +183,125 @@ public class Controller {
                 }
 
             }
-            System.out.println("publicacoes.csv lido!");
         } catch (IOException e) {
-
-            System.out.println("Erro de I/O");
-
+            throw new CustomException("Erro de I/O");
         }
     }
 
-    public void ReadQualis(String csvFile) {
+    public void ReadQualis(String csvFile) throws CustomException {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             line = br.readLine();
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy,'\n');
+                String[] token = line.split(cvsSplitBy, '\n');
 
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
-                String nomeQualis =token[2].trim();
-                
-                
-                if(nomeQualis.equals("A1") || nomeQualis.equals("A2")
+                String nomeQualis = token[2].trim();
+
+                if (nomeQualis.equals("A1") || nomeQualis.equals("A2")
                         || nomeQualis.equals("B1") || nomeQualis.equals("B2")
-                                || nomeQualis.equals("B3")||
-                        nomeQualis.equals("B4") || nomeQualis.equals("B5")
-                        || nomeQualis.equals("C")){
+                        || nomeQualis.equals("B3")
+                        || nomeQualis.equals("B4") || nomeQualis.equals("B5")
+                        || nomeQualis.equals("C")) {
 
-                Qualis qualisQualif = Qualis.valueOf(nomeQualis);
-                //System.out.println(qualis.getNome());
-                Qualificacao q1 = new Qualificacao(ano,qualisQualif,veiculos.get(siglaVeiculo));
-                qualificacoes.add(q1);
+                    Qualis qualisQualif = Qualis.valueOf(nomeQualis);
+                    //System.out.println(qualis.getNome());
+                    Qualificacao q1 = new Qualificacao(ano, qualisQualif, veiculos.get(siglaVeiculo));
+                    qualificacoes.add(q1);
 
-                //adicionar as qualificacoes nos veiculos
-                veiculos.get(siglaVeiculo).setQualificacoesVeiculo(q1);
+                    //adicionar as qualificacoes nos veiculos
+                    veiculos.get(siglaVeiculo).setQualificacoesVeiculo(q1);
 
-                }else{
-                    System.out.println("Qualis desconhecido para qualificação do veículo " + siglaVeiculo + 
-                            " no ano " + ano + ": " + nomeQualis +".");
+                } else {
+                    throw new CustomException("Qualis desconhecido para qualificação do veículo " + siglaVeiculo
+                            + " no ano " + ano + ": " + nomeQualis + ".");
                 }
-
-
-               
             }
-            
-         
-            System.out.println("qualis.csv lido!");
         } catch (IOException e) {
 
-            System.out.println("Erro de I/O");
+            throw new CustomException("Erro de I/O");
         }
     }
 
-    public void ReadRegras(String csvFile) {
+    public void ReadRegras(String csvFile) throws CustomException {
         String line;
         Locale ptBR = new Locale("pt", "BR");
         NumberFormat numberFormat = NumberFormat.getNumberInstance(ptBR);
-        
-    try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-                line = br.readLine();
 
-                while ((line = br.readLine()) != null) {
-                    String[] token = line.split(cvsSplitBy,'\n');
-                    Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
-                    Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            line = br.readLine();
 
-                    String sQualis = token[2].trim();
-                    String[] lineQualis = sQualis.split(",");
+            while ((line = br.readLine()) != null) {
+                String[] token = line.split(cvsSplitBy, '\n');
+                Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
+                Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
 
-                    ArrayList<Qualis> arrayQualis = new ArrayList<>();
-                    ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
-                    Map<Qualis,Pontuacao> mqp = new HashMap<>();
-                    String sPontos = token[3].trim();
-                    String[] linePontos = sPontos.split(",");
+                String sQualis = token[2].trim();
+                String[] lineQualis = sQualis.split(",");
 
+                ArrayList<Qualis> arrayQualis = new ArrayList<>();
+                ArrayList<Pontuacao> arrayPontuacao = new ArrayList<>();
+                Map<Qualis, Pontuacao> mqp = new HashMap<>();
+                String sPontos = token[3].trim();
+                String[] linePontos = sPontos.split(",");
 
-                    for(int i=0;i<lineQualis.length;i++){
-                        Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
-                        Qualis qu1 = Qualis.valueOf(lineQualis[i]);
-                        Qualis qu2 = Qualis.valueOf(lineQualis[i]);
-                        if((i+1) < lineQualis.length){
-                         qu2 = Qualis.valueOf(lineQualis[i+1]);
-                        }
-                        for(Qualis temp : EnumSet.range(qu1, qu2)){
-                            pont.setQualisPontuacoes(temp);
-                            mqp.put(temp, pont);
-
-                        }
-
+                for (int i = 0; i < lineQualis.length; i++) {
+                    Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
+                    Qualis qu1 = Qualis.valueOf(lineQualis[i]);
+                    Qualis qu2 = Qualis.valueOf(lineQualis[i]);
+                    if ((i + 1) < lineQualis.length) {
+                        qu2 = Qualis.valueOf(lineQualis[i + 1]);
+                    }
+                    for (Qualis temp : EnumSet.range(qu1, qu2)) {
+                        pont.setQualisPontuacoes(temp);
+                        mqp.put(temp, pont);
 
                     }
 
-
-                    double fm = numberFormat.parse(token[4].trim()).doubleValue();
-                    int qtdAnos = Integer.parseInt(token[5].trim());
-                    int ptMinima = Integer.parseInt(token[6].trim());
-
-                    regras = new Regras(fm,dateInicio,dateFim,qtdAnos,ptMinima,mqp);
-
                 }
 
-                System.out.println("regras.csv lido!");
-            } catch (IOException e) {
+                double fm = numberFormat.parse(token[4].trim()).doubleValue();
+                int qtdAnos = Integer.parseInt(token[5].trim());
+                int ptMinima = Integer.parseInt(token[6].trim());
 
-                System.out.println("Erro de I/O");
-
-            } catch (ParseException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception e){
+                regras = new Regras(fm, dateInicio, dateFim, qtdAnos, ptMinima, mqp);
 
             }
+        } catch (IOException e) {
+
+            throw new CustomException("Erro de I/O");
+
+        } catch (ParseException ex) {
+            throw new CustomException("Erro de formatação");
+        }
     }
-    
-    
-    
-    public void ReadAnoCredenciamento(String ano){
+
+    public void ReadAnoCredenciamento(String ano) {
         anoCredenciamento = Integer.parseInt(ano);
     }
-    
-    public void WriteRecredenciamentoFile(){
-        
+
+    public void WriteRecredenciamentoFile() throws CustomException {
+
         //faz uma copia de docentes para docentesOrdem
         Map<Long, Docente> docentesOrdem = new HashMap<>();
         for (Map.Entry<Long, Docente> entrada : docentes.entrySet()) {
-            docentesOrdem.put(entrada.getKey(),entrada.getValue());
+            docentesOrdem.put(entrada.getKey(), entrada.getValue());
         }
-        
-        Comparator <Long> comparator2 = new ValueComparator<>(docentesOrdem);
+
+        Comparator<Long> comparator2 = new ValueComparator<>(docentesOrdem);
         TreeMap<Long, Docente> mapDocentesOrdenado = new TreeMap<>(comparator2);
-        
-        
-        
-	mapDocentesOrdenado.putAll(docentesOrdem); // estao ordenados em ordem alfabetica
+
+        mapDocentesOrdenado.putAll(docentesOrdem); // estao ordenados em ordem alfabetica
         FileWriter fileWriter = null;
-        try{
+        try {
             fileWriter = new FileWriter("1-recrendenciamento.csv");
             //cabeçalho do arquivo csv
             fileWriter.append("Docente;Pontuação;Recredenciado?");
             fileWriter.append("\n");
-            
-            for(Map.Entry <Long,Docente> entry : mapDocentesOrdenado.entrySet()){
-                double pontuacao  = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
+
+            for (Map.Entry<Long, Docente> entry : mapDocentesOrdenado.entrySet()) {
+                double pontuacao = entry.getValue().getPontuacaoDocente(anoCredenciamento, regras);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
                 Calendar cal = Calendar.getInstance();
@@ -346,175 +312,149 @@ public class Controller {
                 int idade = anoCredenciamento - yearBirth;
                 String sPonto = String.format("%.1f", pontuacao);
 
-
                 //Escrita linha por linha segundo regras 
-                if(entry.getValue().isCoordenador() == true){
+                if (entry.getValue().isCoordenador() == true) {
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append(sPonto);
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("Coordenador");
                     fileWriter.append("\n");
-                    
 
-                }
-                else if(subAno <  3){
+                } else if (subAno < 3) {
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append(sPonto);
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("PPJ");
                     fileWriter.append("\n");
-                   
-                }
-                else if(idade > 60){
+
+                } else if (idade > 60) {
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append(sPonto);
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("PPS");
                     fileWriter.append("\n");
-                    
-                }
-                else if(pontuacao >= regras.getPontuacaoMin()){
+
+                } else if (pontuacao >= regras.getPontuacaoMin()) {
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append(sPonto);
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("Sim");
                     fileWriter.append("\n");
-                    
-                }
-                else{
+
+                } else {
                     fileWriter.append(entry.getValue().getNome());
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append(sPonto);
                     fileWriter.append(cvsSplitBy);
                     fileWriter.append("Não");
                     fileWriter.append("\n");
-                    
+
                 }
 
-                
             }
-        
-        }
-        catch (Exception e){
-            
-            System.out.println("Erro de I/O");
-            
-        }
-        finally{
-            try{
+
+        } catch (IOException e) {
+            throw new CustomException("Erro de I/O");
+        } finally {
+            try {
                 fileWriter.flush();
                 fileWriter.close();
+            } catch (IOException e) {
+                throw new CustomException("Erro de I/O");
             }
-            catch (IOException e) {
-                System.out.println("Erro de I/O");
-                e.printStackTrace();
-            }
-  
+
         }
     }
-    
-    public void WriteListaPublicacoes(){
-        /*
-        ArrayList<Qualificacao> _qualificacoes;
-        Qualificacao _qualificacao = new Qualificacao();
-        ArrayList<Veiculo> _veiculos = new ArrayList();
-        Veiculo _veiculo = new Veiculo();
-        for(Qualis _q:Qualis.values()){
-            _qualificacoes = _qualificacao.getAllByQuali(_q, this.qualificacoes);
-            for(Qualificacao _qualificacao1: _qualificacoes){
-                
-            }
-        }
-        */
-        publicacoes.sort(new Comparator<Publicacao>(){
+
+    public void WriteListaPublicacoes() throws CustomException {
+
+        publicacoes.sort(new Comparator<Publicacao>() {
             @Override
             public int compare(Publicacao p1, Publicacao p2) {
                 return p1.getTitulo().compareTo(p2.getTitulo());
             }
-            
+
         });
-        
-        publicacoes.sort(new Comparator<Publicacao>(){
+
+        publicacoes.sort(new Comparator<Publicacao>() {
             @Override
             public int compare(Publicacao p1, Publicacao p2) {
                 return p1.getVeiculo().getSigla().compareTo(p2.getVeiculo().getSigla());
             }
-            
+
         });
-        
-        publicacoes.sort(new Comparator<Publicacao>(){
+
+        publicacoes.sort(new Comparator<Publicacao>() {
             @Override
             public int compare(Publicacao p1, Publicacao p2) {
                 return p2.getAno() - p1.getAno();
             }
-            
+
         });
-        
-        publicacoes.sort(new Comparator<Publicacao>(){
+
+        publicacoes.sort(new Comparator<Publicacao>() {
             @Override
             public int compare(Publicacao p1, Publicacao p2) {
                 return p1.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().compareTo(p2.getVeiculo().getQualificacoesVeiculo().get(0).getQualis());
             }
-            
+
         });
         try {
             FileWriter f = new FileWriter("2-publicacoes.csv");
-            f.append("Ano"+cvsSplitBy+"Sigla Veículo"+cvsSplitBy+"Veículo"+
-                    cvsSplitBy+"Qualis"+cvsSplitBy+"Fator de Impacto"+cvsSplitBy
-                    +"Título"+cvsSplitBy+"Docentes\n");
-            
-            for(Publicacao _p: publicacoes){
+            f.append("Ano" + cvsSplitBy + "Sigla Veículo" + cvsSplitBy + "Veículo"
+                    + cvsSplitBy + "Qualis" + cvsSplitBy + "Fator de Impacto" + cvsSplitBy
+                    + "Título" + cvsSplitBy + "Docentes\n");
+
+            for (Publicacao _p : publicacoes) {
                 String fatorImp = String.format("%.3f", _p.getVeiculo().getFatorDeImpacto());
-                f.append(_p.getAno()+cvsSplitBy+_p.getVeiculo().getSigla()+cvsSplitBy+
-                        _p.getVeiculo().getNome()+cvsSplitBy+_p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
-                +cvsSplitBy+fatorImp+cvsSplitBy+_p.getTitulo()+cvsSplitBy);
-                
-                int tamanho=0;
-                for(Docente _d: _p.getAutores()){
-                    
+                f.append(_p.getAno() + cvsSplitBy + _p.getVeiculo().getSigla() + cvsSplitBy
+                        + _p.getVeiculo().getNome() + cvsSplitBy + _p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
+                        + cvsSplitBy + fatorImp + cvsSplitBy + _p.getTitulo() + cvsSplitBy);
+
+                int tamanho = 0;
+                for (Docente _d : _p.getAutores()) {
+
                     f.append(_d.getNome());
-                    if(tamanho < (_p.getAutores().size() - 1)){
+                    if (tamanho < (_p.getAutores().size() - 1)) {
                         f.append(",");
                     }
                     tamanho++;
-                    
+
                 }
                 f.append("\n");
             }
             f.close();
         } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("Erro de I/O");
         }
     }
-    
-    public void WriteStatistics(){
+
+    public void WriteStatistics() throws CustomException {
         ArrayList<Publicacao> pArray = null;
-        
-        double ratio =0;
-        try{
+
+        double ratio = 0;
+        try {
             FileWriter f = new FileWriter("3-estatisticas.csv");
-            
-            f.append("Qualis"+cvsSplitBy+"Qtd. Artigos"+cvsSplitBy+"Média Artigos / Docente\n");
-            
-            for(Qualis q: Qualis.values()){
-               
+
+            f.append("Qualis" + cvsSplitBy + "Qtd. Artigos" + cvsSplitBy + "Média Artigos / Docente\n");
+
+            for (Qualis q : Qualis.values()) {
+
                 pArray = publicacoes.get(0).getAllByQualis(q, publicacoes);
                 ratio = publicacoes.get(0).getRatioByQualis(q, publicacoes);
                 String mediaArtigosPorDocente = String.format("%.2f", ratio);
-                f.append(q.getNome() + cvsSplitBy + pArray.size() + cvsSplitBy+ mediaArtigosPorDocente+ "\n");
-                
+                f.append(q.getNome() + cvsSplitBy + pArray.size() + cvsSplitBy + mediaArtigosPorDocente + "\n");
+
             }
-            
-            
+
             f.close();
-        }catch(IOException ex){
-            
+        } catch (IOException ex) {
+            throw new CustomException("Erro de I/O");
         }
     }
-    
-  
+
 }

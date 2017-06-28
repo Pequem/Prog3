@@ -1,5 +1,6 @@
 
 import java.text.ParseException;
+import prog3.Model.CustomException;
 
 public class Prog {
 
@@ -8,12 +9,7 @@ public class Prog {
         //ler como parametros 
         if (args.length == 0) {
             System.out.println("No Command Line arguments");
-        } else {
-            System.out.println("You provided " + args.length
-                    + " arguments");
-            for (int i = 0; i < args.length; i++) {
-                System.out.println("args[" + i + "]: " + args[i]);
-            }
+            return;
         }
 
         //LEITURA DOS ARQUIVOS
@@ -43,11 +39,14 @@ public class Prog {
                     return;
             }
         }
-        
+        try{
         Controller c = new Controller(d,v,p,q,r,a);
 
         c.WriteRecredenciamentoFile();
         c.WriteListaPublicacoes();
         c.WriteStatistics();
+        }catch(CustomException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
