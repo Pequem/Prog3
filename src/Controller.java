@@ -127,6 +127,7 @@ public class Controller {
 
     public void ReadPublicacoes(String csvFile) {
         String line;
+        Docente d = null;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             line = br.readLine();
 
@@ -140,10 +141,13 @@ public class Controller {
 
                 String[] lineToken3 = cdAutores.split(",");
 
-                Map<Long, Docente> listaAutores = new HashMap<>();
+                ArrayList<Docente> listaAutores = new ArrayList<>();
 
                 for (int i = 0; i < lineToken3.length; i++) {
-                    listaAutores.put(Long.parseLong(lineToken3[i]), docentes.get(Long.parseLong(lineToken3[i])));
+                    d = docentes.get(Long.parseLong(lineToken3[i]));
+                    if(!listaAutores.contains(d)){
+                    listaAutores.add(d);
+                    }
                 }
 
                 int numero = Integer.parseInt(token[4].trim());
@@ -416,7 +420,7 @@ public class Controller {
         publicacoes.sort(new Comparator<Publicacao>(){
             @Override
             public int compare(Publicacao p1, Publicacao p2) {
-                return p2.getTitulo().compareTo(p1.getTitulo());
+                return p1.getTitulo().compareTo(p2.getTitulo());
             }
             
         });
@@ -457,10 +461,10 @@ public class Controller {
                 +cvsSplitBy+fatorImp+cvsSplitBy+_p.getTitulo()+cvsSplitBy);
                 
                 int tamanho=0;
-                for(Map.Entry <Long, Docente> _d: _p.getAutores().entrySet()){
+                for(Docente _d: _p.getAutores()){
                     
-                    f.append(_d.getValue().getNome());
-                    if(tamanho < (_p.getAutores().entrySet().size() - 1)){
+                    f.append(_d.getNome());
+                    if(tamanho < (_p.getAutores().size() - 1)){
                         f.append(",");
                     }
                     tamanho++;

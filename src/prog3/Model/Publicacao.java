@@ -11,14 +11,14 @@ public abstract class Publicacao {
 	private int pagInicial;
 	private int pagFinal;
 	private Veiculo veiculo;
-	private Map<Long,Docente> autores;
+	private ArrayList<Docente> autores;
         
         
     public Publicacao(){
         
     }
     public Publicacao(int ano,String titulo,int numero,Veiculo veiculo,
-            Map<Long,Docente> autores,int pagInicial,int pagFinal){
+            ArrayList<Docente> autores,int pagInicial,int pagFinal){
         this.ano= ano;
         this.titulo = titulo;
         this.numero = numero;
@@ -30,8 +30,8 @@ public abstract class Publicacao {
     }
         
         
-    public boolean existeAutorPublicacao(Long cod){
-      return autores.containsKey(cod);
+    public boolean existeAutorPublicacao(Docente d){
+      return autores.contains(d);
     }
 
     public int getAno() {
@@ -58,7 +58,7 @@ public abstract class Publicacao {
         return veiculo;
     }
 
-    public Map<Long, Docente> getAutores() {
+    public ArrayList<Docente> getAutores() {
         return autores;
     }
     
@@ -67,13 +67,9 @@ public abstract class Publicacao {
          
         for(Publicacao _pub:p){
             if(_pub.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().equals(q)){
-                
                 _p.add(_pub);
-                
             }
-            
         }
-        
         return _p;
     }
     public double getRatioByQualis(Qualis q, ArrayList<Publicacao> p){
