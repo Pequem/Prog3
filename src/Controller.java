@@ -453,8 +453,16 @@ public class Controller {
                 f.append(_p.getAno()+cvsSplitBy+_p.getVeiculo().getSigla()+cvsSplitBy+
                         _p.getVeiculo().getNome()+cvsSplitBy+_p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
                 +cvsSplitBy+_p.getVeiculo().getFatorDeImpacto()+cvsSplitBy+_p.getTitulo()+cvsSplitBy);
+                
+                int tamanho=0;
                 for(Map.Entry <Long, Docente> _d: _p.getAutores().entrySet()){
-                    f.append(_d.getValue().getNome()+",");
+                    
+                    f.append(_d.getValue().getNome());
+                    if(tamanho < (_p.getAutores().entrySet().size() - 1)){
+                        f.append(",");
+                    }
+                    tamanho++;
+                    
                 }
                 f.append("\n");
             }

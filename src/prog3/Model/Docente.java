@@ -30,7 +30,7 @@ public class Docente implements Comparable<Docente>{
         
         @Override
         public String toString(){
-            //precisa configurar a saida das datas 
+            
             return codigo + " "+ nome + " "+ nascimento +" "+ ingresso +" " + coordenador +". " ;
         }
         
