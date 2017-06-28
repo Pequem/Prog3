@@ -451,9 +451,10 @@ public class Controller {
                     +"Título"+cvsSplitBy+"Docentes\n");
             
             for(Publicacao _p: publicacoes){
+                String fatorImp = String.format("%.3f", _p.getVeiculo().getFatorDeImpacto());
                 f.append(_p.getAno()+cvsSplitBy+_p.getVeiculo().getSigla()+cvsSplitBy+
                         _p.getVeiculo().getNome()+cvsSplitBy+_p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
-                +cvsSplitBy+_p.getVeiculo().getFatorDeImpacto()+cvsSplitBy+_p.getTitulo()+cvsSplitBy);
+                +cvsSplitBy+fatorImp+cvsSplitBy+_p.getTitulo()+cvsSplitBy);
                 
                 int tamanho=0;
                 for(Map.Entry <Long, Docente> _d: _p.getAutores().entrySet()){
