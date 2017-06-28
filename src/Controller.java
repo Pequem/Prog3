@@ -80,9 +80,9 @@ public class Controller {
                 } catch (ParseException ex) {
                     return false;
                 }
-
+                
             }
-
+            System.out.println("docentes.csv lido!");
         } catch (IOException e) {
 
             System.out.println("Erro de I/O");
@@ -197,16 +197,17 @@ public class Controller {
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
                 String nomeQualis =token[2].trim();
-
+                
+                
                 if(nomeQualis.equals("A1") || nomeQualis.equals("A2")
                         || nomeQualis.equals("B1") || nomeQualis.equals("B2")
                                 || nomeQualis.equals("B3")||
                         nomeQualis.equals("B4") || nomeQualis.equals("B5")
                         || nomeQualis.equals("C")){
 
-                Qualis qualis = Qualis.valueOf(nomeQualis);
+                Qualis qualisQualif = Qualis.valueOf(nomeQualis);
                 //System.out.println(qualis.getNome());
-                Qualificacao q1 = new Qualificacao(ano,qualis,veiculos.get(siglaVeiculo));
+                Qualificacao q1 = new Qualificacao(ano,qualisQualif,veiculos.get(siglaVeiculo));
                 qualificacoes.add(q1);
 
                 //adicionar as qualificacoes nos veiculos
@@ -475,14 +476,22 @@ public class Controller {
     public void WriteStatistics(){
         ArrayList<Publicacao> pArray = null;
         
+        double ratio =0;
         try{
             FileWriter f = new FileWriter("3-estatisticas.csv");
             
-            f.append("Qualis"+cvsSplitBy+"Qtd. Artigos"+cvsSplitBy+"Média Artigos / Doecentes\n");
-            for(Qualis q: qualis){
+            f.append("Qualis"+cvsSplitBy+"Qtd. Artigos"+cvsSplitBy+"Média Artigos / Doecente\n");
+            
+            for(Qualis q: Qualis.values()){
+               
                 pArray = publicacoes.get(0).getAllByQualis(q, publicacoes);
-                f.append(q.getNome()+cvsSplitBy+pArray.size()+"\n");
+                ratio = publicacoes.get(0).getRatioByQualis(q, publicacoes);
+                String mediaArtigosPorDocente = String.format("%.2f", ratio);
+                f.append(q.getNome() + cvsSplitBy + pArray.size() + cvsSplitBy+ mediaArtigosPorDocente+ "\n");
+                
             }
+            
+            
             f.close();
         }catch(IOException ex){
             

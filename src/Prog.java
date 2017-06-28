@@ -66,8 +66,9 @@ public class Prog {
             }
             
             if(optionRead == 1){
+                optionWrite=2; // para nao escrever
                 //READ ONLY OPTION
-                
+                System.out.println("READ ONLY ALL THE WAY");
                 
             }
         

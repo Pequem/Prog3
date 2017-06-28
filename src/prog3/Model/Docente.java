@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Docente implements Comparable<Docente>{
 	private long codigo;
@@ -18,7 +19,9 @@ public class Docente implements Comparable<Docente>{
 	private boolean coordenador;
         private ArrayList<Publicacao> publicacoesDocente; 
         
-	
+	public Docente(){
+            
+        }
         public Docente(long codigo, String nome, Date nascimento, Date ingresso, boolean coordenador){
             this.codigo = codigo;
             this.nome = nome;
@@ -59,12 +62,9 @@ public class Docente implements Comparable<Docente>{
                 }
                
             }
-            //System.out.println(num2);
+           
             return num2;
         }
-        
-        
-        
         
         
 

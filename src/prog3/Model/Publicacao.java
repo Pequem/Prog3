@@ -62,17 +62,37 @@ public abstract class Publicacao {
         return autores;
     }
     
-    public ArrayList<Publicacao> getAllByQualis(Qualis q, ArrayList<Publicacao>p){
+    public ArrayList<Publicacao> getAllByQualis(Qualis q, ArrayList<Publicacao> p){
         ArrayList<Publicacao> _p = new ArrayList<>();
-        
+         
         for(Publicacao _pub:p){
             if(_pub.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().equals(q)){
+                
                 _p.add(_pub);
+                
             }
+            
         }
         
         return _p;
     }
+    public double getRatioByQualis(Qualis q, ArrayList<Publicacao> p){
+        ArrayList<Publicacao> _p = new ArrayList<>();
+        
+        double soma=0;
+        for(Publicacao _pub:p){
+            if(_pub.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().equals(q)){
+                
+                _p.add(_pub);
+                soma += 1.0/_pub.getAutores().size();
+            }
+            
+        }
+        
+        
+        return soma;
+    }
+    
 
     public double calcularPontosQualificacoesVeiculo(Veiculo v,int ano, Regras r){
                 
