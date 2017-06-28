@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author rodri
  */
 public class Conferencia extends Publicacao {
-    private String local;
+    private final String local;
     
     public Conferencia (String local, int ano,String titulo,int numero,Veiculo veiculo,
                 ArrayList<Docente> autores,int pagInicial,int pagFinal){

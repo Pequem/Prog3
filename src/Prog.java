@@ -40,11 +40,7 @@ public class Prog {
             }
         }
         try{
-        Controller c = new Controller(d,v,p,q,r,a);
-
-        c.WriteRecredenciamentoFile();
-        c.WriteListaPublicacoes();
-        c.WriteStatistics();
+            new Controller(d,v,p,q,r,a);
         }catch(CustomException e){
             System.out.println(e.getMessage()+".");
         }

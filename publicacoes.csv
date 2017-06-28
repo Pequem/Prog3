@@ -1,9 +1,9 @@
 Ano;Veículo;Título;Autores;Número;Volume;Local;Página Inicial;Página Final
-2016;SoSyM;Toward a well-founded theory for multi-level conceptual modeling;7777944689999999;1;1;;1;27
+2016;SoSyM;Toward a well-founded theory for multi-level conceptual modeling;4332944687727590;1;1;;1;27
 2016;CAISE;Engineering Requirements with Desiree: An Empirical Evaluation;5297252436860003;28;;Slovenia;221;238
 2016;WWW;Applying a Multi-Level Modeling Theory to Assess Taxonomic Hierarchies in Wikidata;4332944687727590,5297252436860003;25;;Monteral;975;980
 2016;ACM SAC;An Ontology Pattern Language for Service Modeling;5297252436860003,8826584877205264,9264617752964635;31;;Pisa;321;326
-2016;EMMSAD;PoN-S: A Systematic Approach for Applying the Physics of Notation (PoN);2222252435555555,8826584877205264,9264617752964635;21;;Slovenia;432;447
+2016;EMMSAD;PoN-S: A Systematic Approach for Applying the Physics of Notation (PoN);5297252436860003,8826584877205264,9264617752964635;21;;Slovenia;432;447
 2016;FOIS;Towards an Ontology of Requirements at Runtime;9264617752964635,2762374760685577,5297252436860003,1688136556728644;9;;Annecy;255;268
 2016;BPM;Ontological Considerations about the Representation of Events and Endurants in Business Models;4332944687727590,5297252436860003;15;;Rio de Janeiro;20;36
 2016;ISWC;Expressive Multi-Level Modeling for the Semantic Web;4332944687727590,5297252436860003;15;;Berlim;53;69
@@ -17,7 +17,7 @@ Ano;Veículo;Título;Autores;Número;Volume;Local;Página Inicial;Página Final
 2016;ONTOBRAS ;An Ontological Analysis of Capability Modeling in Defense Enterprise Architecture Frameworks;4332944687727590,5297252436860003;5;;Curitiba;1;12
 2016;SBQS;Integrating Tools to Support Software Measurement.;8826584877205264,9264617752964635;15;;Maceió;317;331
 2016;SBQS;An Ontology-Based Approach for Software Measurement Systems Integration;8826584877205264,9264617752964635;15;;Maceió;436;450
-2016;SBQS;Semantic Documentation in Project Management. In: XV Simpósio Brasileiro de Qualidade de Software;1116584877222222,9264617752964635;15;;Maceió;451;466
+2016;SBQS;Semantic Documentation in Project Management. In: XV Simpósio Brasileiro de Qualidade de Software;8826584877205264,9264617752964635;15;;Maceió;451;466
 2016;SBQS;Measures Suitable for SPC: A Systematic Mapping;8826584877205264;15;;Maceió;166;180
 2016;EKAW;SEON: A Software Engineering Ontology Network;9264617752964635,8826584877205264,5297252436860003;20;;Bologna;527;542
 2016;ONTOBRAS ;Process Integration in Semantic Enterprise Application Integration: a Systematic Mapping;8826584877205264,9264617752964635 ;5;;Curitiba;1;12
@@ -31,7 +31,7 @@ Ano;Veículo;Título;Autores;Número;Volume;Local;Página Inicial;Página Final
 2015;ER;Towards a Service Ontology Pattern Language;5297252436860003,8826584877205264,9264617752964635;34;;Estocolmo;187;195
 2015;EDOC;OntoUML Lightweight Editor: A Model-Based Environment to Build, Evaluate and Implement Reference Ontologies.;5297252436860003,4332944687727590;19;;Melbourne;144;147
 2015;FOFAI;Towards an Ontological Analysis of Powertypes;5297252436860003,4332944687727590;1;;Buenos Aires;1;8
-2015;ICAIL;Towards A Legal Core Ontology Based on Alexy?s Theory of Fundamental Rights;9999252436869999,4332944687727590;15;;San Diego;1;12
+2015;ICAIL;Towards A Legal Core Ontology Based on Alexy?s Theory of Fundamental Rights;5297252436860003,4332944687727590;15;;San Diego;1;12
 2015;ONTOBRAS ;A Systematic Mapping of the Literature on Legal Core Ontologies;5297252436860003,4332944687727590;4;;São Paulo;1;12
 2015;ONTOBRAS ;An Empirical Study to validate the Use of Ontological Guidelines in the Creation of i* Models;5297252436860003,1688136556728644;4;;São Paulo;1;12
 2015;PoEM;Ontology-based Modeling of Cloud Services: Challenges and Perspectives;5297252436860003,8826584877205264,9264617752964635;8;;Valencia;61;70

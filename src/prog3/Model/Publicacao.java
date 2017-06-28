@@ -1,8 +1,6 @@
 package prog3.Model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Publicacao {
 	private int ano;

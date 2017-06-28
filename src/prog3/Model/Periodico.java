@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author rodri
  */
 public class Periodico extends Publicacao{
-    private int volume;
+    private final int volume;
     
     public Periodico(int volume, int ano,String titulo,int numero,Veiculo veiculo,
                 ArrayList<Docente> autores,int pagInicial,int pagFinal){

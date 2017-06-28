@@ -12,10 +12,12 @@ import java.util.Map;
 /**
  *
  * @author user
+ * @param <Long>
+ * @param <Docente>
  */
 public class ValueComparator <Long, Docente extends Comparable<Docente>> implements Comparator<Long>{
         //criada para comparar o map 
-	Map<Long, Docente> map = new HashMap<Long, Docente>();
+	Map<Long, Docente> map = new HashMap<>();
  
 	public ValueComparator(Map<Long, Docente> map){
 		this.map.putAll(map);

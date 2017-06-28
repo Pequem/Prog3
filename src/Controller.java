@@ -8,8 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
@@ -17,8 +15,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import prog3.Model.*;
 
 /*
@@ -30,13 +26,13 @@ import prog3.Model.*;
  *
  * @author rodri
  */
-public class Controller {
+public final class Controller {
 
-    private Map<Long, Docente> docentes = new HashMap<>();
-    private Map<String, Veiculo> veiculos = new HashMap<>();
-    private ArrayList<Publicacao> publicacoes = new ArrayList<>();
-    private ArrayList<Qualis> qualis = new ArrayList<>();
-    private ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
+    private final Map<Long, Docente> docentes = new HashMap<>();
+    private final Map<String, Veiculo> veiculos = new HashMap<>();
+    private final ArrayList<Publicacao> publicacoes = new ArrayList<>();
+    private final ArrayList<Qualis> qualis = new ArrayList<>();
+    private final ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
     private Regras regras = new Regras();
     private int anoCredenciamento;
 
@@ -53,12 +49,25 @@ public class Controller {
         ReadQualis(q);
         ReadRegras(r);
         ReadAnoCredenciamento(a);
+        WriteRecredenciamentoFile();
+        WriteListaPublicacoes();
+        WriteStatistics();
     }
+    
+        public Controller(String d, String v, String p, String q, String r, String a, String func) throws CustomException {
+        ReadDocentes(d);
+        ReadVeiculos(v);
+        ReadPublicacoes(p);
+        ReadQualis(q);
+        ReadRegras(r);
+        ReadAnoCredenciamento(a);
+    }
+
 
     public void ReadDocentes(String csvFile) throws CustomException {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            line = br.readLine();
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
 
@@ -67,7 +76,7 @@ public class Controller {
                 //array de docentes criados pata store all of the docentes created.
 
                 long cod = Long.parseLong(token[0].trim());
-                Date date1 = null, date2 = null;
+                Date date1, date2;
                 try {
                     date1 = new SimpleDateFormat("dd/MM/yyyy").parse(token[2].trim());
                     date2 = new SimpleDateFormat("dd/MM/yyyy").parse(token[3].trim());
@@ -97,7 +106,7 @@ public class Controller {
         Locale ptBR = new Locale("pt", "BR");
         NumberFormat numberFormat = NumberFormat.getNumberInstance(ptBR);
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            line = br.readLine();
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] token = line.split(cvsSplitBy, '\n');
@@ -105,6 +114,9 @@ public class Controller {
                 String sigla = token[0].trim();
                 String nome = token[1].trim();
                 char tipo = token[2].charAt(0);
+                if(!((tipo == 'C') || (tipo == 'P'))){
+                    throw new CustomException("Tipo de veículo desconhecido para veículo "+sigla+": "+tipo);
+                }
                 double fdi;
                 try {
                     fdi = numberFormat.parse(token[3].trim()).doubleValue();
@@ -127,9 +139,9 @@ public class Controller {
 
     public void ReadPublicacoes(String csvFile) throws CustomException {
         String line;
-        Docente d = null;
+        Docente d;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            line = br.readLine();
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] token = line.split(cvsSplitBy, '\n');
@@ -138,7 +150,7 @@ public class Controller {
                 String siglaVeiculo = token[1].trim();
                 String titulo = token[2].trim();
                 if(!veiculos.containsKey(siglaVeiculo)){
-                    throw new CustomException("Sigla de veículo não definida usada na publicação \""+titulo+"\": "+siglaVeiculo+".");
+                    throw new CustomException("Sigla de veículo não definida usada na publicação \""+titulo+"\": "+siglaVeiculo);
                 }
                 String cdAutores = token[3].trim();
 
@@ -146,10 +158,10 @@ public class Controller {
 
                 ArrayList<Docente> listaAutores = new ArrayList<>();
 
-                for (int i = 0; i < lineToken3.length; i++) {
-                    d = docentes.get(Long.parseLong(lineToken3[i]));
-                    if(d == null){
-                        throw new CustomException("Código de docente não definido usado na publicação \""+titulo+"\": "+lineToken3[i]);
+                for (String lineToken31 : lineToken3) {
+                    d = docentes.get(Long.parseLong(lineToken31));
+                    if (d == null) {
+                        throw new CustomException("Código de docente não definido usado na publicação \""+titulo+"\": " + lineToken31);
                     }
                     if (!listaAutores.contains(d)) {
                         listaAutores.add(d);
@@ -169,9 +181,9 @@ public class Controller {
                     //adicionando as publicacoes nos veiculos 
                     veiculos.get(siglaVeiculo).setPublicacoesVeiculo(c1);
 
-                    for (int i = 0; i < lineToken3.length; i++) {
+                    for (String lineToken31 : lineToken3) {
                         //adicionando as conferencias aos respectivos docentes
-                        docentes.get(Long.parseLong(lineToken3[i])).setPublicacaoDocente(c1);
+                        docentes.get(Long.parseLong(lineToken31)).setPublicacaoDocente(c1);
                     }
 
                 } else if (localConf.equals("")) {
@@ -182,9 +194,9 @@ public class Controller {
                     //adicionando as publicacoes nos veiculos 
                     veiculos.get(siglaVeiculo).setPublicacoesVeiculo(p1);
 
-                    for (int i = 0; i < lineToken3.length; i++) {
+                    for (String lineToken31 : lineToken3) {
                         //adicionando as periodicos aos respectivos docentes
-                        docentes.get(Long.parseLong(lineToken3[i])).setPublicacaoDocente(p1);
+                        docentes.get(Long.parseLong(lineToken31)).setPublicacaoDocente(p1);
                     }
                 }
 
@@ -197,14 +209,16 @@ public class Controller {
     public void ReadQualis(String csvFile) throws CustomException {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            line = br.readLine();
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] token = line.split(cvsSplitBy, '\n');
 
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
                 String nomeQualis = token[2].trim();
-
+                if(!veiculos.containsKey(siglaVeiculo)){
+                    throw new CustomException("Sigla de veículo não definida usada na qualificação do ano \""+ano+"\": "+siglaVeiculo);
+                }
                 if (nomeQualis.equals("A1") || nomeQualis.equals("A2")
                         || nomeQualis.equals("B1") || nomeQualis.equals("B2")
                         || nomeQualis.equals("B3")
@@ -221,7 +235,7 @@ public class Controller {
 
                 } else {
                     throw new CustomException("Qualis desconhecido para qualificação do veículo " + siglaVeiculo
-                            + " no ano " + ano + ": " + nomeQualis + ".");
+                            + " no ano " + ano + ": " + nomeQualis);
                 }
             }
         } catch (IOException e) {
@@ -236,7 +250,7 @@ public class Controller {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(ptBR);
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            line = br.readLine();
+            br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] token = line.split(cvsSplitBy, '\n');
@@ -291,9 +305,9 @@ public class Controller {
 
         //faz uma copia de docentes para docentesOrdem
         Map<Long, Docente> docentesOrdem = new HashMap<>();
-        for (Map.Entry<Long, Docente> entrada : docentes.entrySet()) {
+        docentes.entrySet().stream().forEach((entrada) -> {
             docentesOrdem.put(entrada.getKey(), entrada.getValue());
-        }
+        });
 
         Comparator<Long> comparator2 = new ValueComparator<>(docentesOrdem);
         TreeMap<Long, Docente> mapDocentesOrdenado = new TreeMap<>(comparator2);
@@ -378,39 +392,14 @@ public class Controller {
 
     public void WriteListaPublicacoes() throws CustomException {
 
-        publicacoes.sort(new Comparator<Publicacao>() {
-            @Override
-            public int compare(Publicacao p1, Publicacao p2) {
-                return p1.getTitulo().compareTo(p2.getTitulo());
-            }
+        publicacoes.sort((Publicacao p1, Publicacao p2) -> p1.getTitulo().compareTo(p2.getTitulo()));
 
-        });
+        publicacoes.sort((Publicacao p1, Publicacao p2) -> p1.getVeiculo().getSigla().compareTo(p2.getVeiculo().getSigla()));
 
-        publicacoes.sort(new Comparator<Publicacao>() {
-            @Override
-            public int compare(Publicacao p1, Publicacao p2) {
-                return p1.getVeiculo().getSigla().compareTo(p2.getVeiculo().getSigla());
-            }
+        publicacoes.sort((Publicacao p1, Publicacao p2) -> p2.getAno() - p1.getAno());
 
-        });
-
-        publicacoes.sort(new Comparator<Publicacao>() {
-            @Override
-            public int compare(Publicacao p1, Publicacao p2) {
-                return p2.getAno() - p1.getAno();
-            }
-
-        });
-
-        publicacoes.sort(new Comparator<Publicacao>() {
-            @Override
-            public int compare(Publicacao p1, Publicacao p2) {
-                return p1.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().compareTo(p2.getVeiculo().getQualificacoesVeiculo().get(0).getQualis());
-            }
-
-        });
-        try {
-            FileWriter f = new FileWriter("2-publicacoes.csv");
+        publicacoes.sort((Publicacao p1, Publicacao p2) -> p1.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().compareTo(p2.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()));
+        try (FileWriter f = new FileWriter("2-publicacoes.csv")) {
             f.append("Ano" + cvsSplitBy + "Sigla Veículo" + cvsSplitBy + "Veículo"
                     + cvsSplitBy + "Qualis" + cvsSplitBy + "Fator de Impacto" + cvsSplitBy
                     + "Título" + cvsSplitBy + "Docentes\n");
@@ -433,18 +422,16 @@ public class Controller {
                 }
                 f.append("\n");
             }
-            f.close();
         } catch (IOException ex) {
             throw new CustomException("Erro de I/O");
         }
     }
 
     public void WriteStatistics() throws CustomException {
-        ArrayList<Publicacao> pArray = null;
+        ArrayList<Publicacao> pArray;
 
-        double ratio = 0;
-        try {
-            FileWriter f = new FileWriter("3-estatisticas.csv");
+        double ratio;
+        try (FileWriter f = new FileWriter("3-estatisticas.csv")) {
 
             f.append("Qualis" + cvsSplitBy + "Qtd. Artigos" + cvsSplitBy + "Média Artigos / Docente\n");
 
@@ -457,7 +444,6 @@ public class Controller {
 
             }
 
-            f.close();
         } catch (IOException ex) {
             throw new CustomException("Erro de I/O");
         }

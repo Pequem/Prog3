@@ -1,22 +1,14 @@
 package prog3.Model;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Docente implements Comparable<Docente>{
-	private long codigo;
-	private String nome;
-	private Date nascimento;
-	private Date ingresso;
-	private boolean coordenador;
+	private final long codigo;
+	private final String nome;
+	private final Date nascimento;
+	private final Date ingresso;
+	private final boolean coordenador;
         private ArrayList<Publicacao> publicacoesDocente; 
         
 
