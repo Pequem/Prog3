@@ -50,6 +50,19 @@ public class Controller {
 
     private final String cvsSplitBy = ";";
 
+    public Controller(){
+        
+    }
+    
+    public Controller(String d,String v,String p,String q,String r,String a){
+        ReadDocentes(d);
+        ReadVeiculos(v);
+        ReadPublicacoes(p);
+        ReadQualis(q);
+        ReadRegras(r);
+        ReadAnoCredenciamento(a);
+    }
+    
     public boolean ReadDocentes(String csvFile) {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
