@@ -137,6 +137,9 @@ public class Controller {
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
                 String titulo = token[2].trim();
+                if(!veiculos.containsKey(siglaVeiculo)){
+                    throw new CustomException("Sigla de veículo não definida usada na publicação \""+titulo+"\": "+siglaVeiculo+".");
+                }
                 String cdAutores = token[3].trim();
 
                 String[] lineToken3 = cdAutores.split(",");
@@ -145,6 +148,9 @@ public class Controller {
 
                 for (int i = 0; i < lineToken3.length; i++) {
                     d = docentes.get(Long.parseLong(lineToken3[i]));
+                    if(d == null){
+                        throw new CustomException("Código de docente não definido usado na publicação \""+titulo+"\": "+lineToken3[i]);
+                    }
                     if (!listaAutores.contains(d)) {
                         listaAutores.add(d);
                     }

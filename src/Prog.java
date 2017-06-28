@@ -46,7 +46,7 @@ public class Prog {
         c.WriteListaPublicacoes();
         c.WriteStatistics();
         }catch(CustomException e){
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+".");
         }
     }
 }
