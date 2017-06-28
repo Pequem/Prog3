@@ -1,9 +1,10 @@
 package prog3.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Qualificacao {
+public class Qualificacao implements Serializable{
     private int ano;
     private Qualis qualis;
     private Veiculo veiculoQualificacao;

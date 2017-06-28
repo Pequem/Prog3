@@ -5,6 +5,7 @@
  */
 package prog3.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  *
  * @author user
  */
-public class Regras {
+public class Regras implements Serializable {
     private double fatorMult;
     private Date dataInicio;
     private Date dataFim;

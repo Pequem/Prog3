@@ -5,13 +5,14 @@
  */
 package prog3.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author user
  */
-public class Pontuacao {
+public class Pontuacao implements Serializable{
     private final int valor;
     private Regras regrasPontuacao;
     private ArrayList<Qualis> qualisPontuacoes;

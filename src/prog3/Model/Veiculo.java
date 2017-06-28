@@ -1,8 +1,9 @@
 package prog3.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Veiculo {
+public class Veiculo implements Serializable{
 	private String sigla;
 	private String nome;
         private char tipo;

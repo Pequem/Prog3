@@ -13,7 +13,7 @@ public class Prog {
         }
 
         //LEITURA DOS ARQUIVOS
-        String d = null, v = null, p = null, q = null, r = null, a = null;
+        String d = null, v = null, p = null, q = null, r = null, a = null, f = null;
         for (int j = 2; j < args.length; j++) {
             switch (args[j]) {
                 case "-d":
@@ -34,13 +34,23 @@ public class Prog {
                 case "-a":
                     a = args[++j];
                     break;
+                case "--read-only":
+                    f = "r";
+                    break;
+                case "--write-only":
+                    f = "w";
+                    break;
                 default:
                     System.out.println("Comando " + args[j] + " é invalido");
                     return;
             }
         }
         try{
-            new Controller(d,v,p,q,r,a);
+            if(f == null){
+                new Controller(d,v,p,q,r,a);
+            }else{
+                new Controller(d,v,p,q,r,a,f);
+            }
         }catch(CustomException e){
             System.out.println(e.getMessage()+".");
         }

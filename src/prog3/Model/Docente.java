@@ -1,9 +1,10 @@
 package prog3.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Docente implements Comparable<Docente>{
+public class Docente implements Comparable<Docente>, Serializable{
 	private final long codigo;
 	private final String nome;
 	private final Date nascimento;

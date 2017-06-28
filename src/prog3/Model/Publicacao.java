@@ -1,8 +1,9 @@
 package prog3.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Publicacao {
+public abstract class Publicacao implements Serializable{
 	private int ano;
 	private String titulo;
 	private int numero;

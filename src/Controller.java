@@ -1,8 +1,12 @@
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +19,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import prog3.Model.*;
 
 /*
@@ -28,11 +34,10 @@ import prog3.Model.*;
  */
 public final class Controller {
 
-    private final Map<Long, Docente> docentes = new HashMap<>();
-    private final Map<String, Veiculo> veiculos = new HashMap<>();
-    private final ArrayList<Publicacao> publicacoes = new ArrayList<>();
-    private final ArrayList<Qualis> qualis = new ArrayList<>();
-    private final ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
+    private Map<Long, Docente> docentes = new HashMap<>();
+    private Map<String, Veiculo> veiculos = new HashMap<>();
+    private ArrayList<Publicacao> publicacoes = new ArrayList<>();
+    private ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
     private Regras regras = new Regras();
     private int anoCredenciamento;
 
@@ -53,16 +58,45 @@ public final class Controller {
         WriteListaPublicacoes();
         WriteStatistics();
     }
-    
-        public Controller(String d, String v, String p, String q, String r, String a, String func) throws CustomException {
-        ReadDocentes(d);
-        ReadVeiculos(v);
-        ReadPublicacoes(p);
-        ReadQualis(q);
-        ReadRegras(r);
-        ReadAnoCredenciamento(a);
-    }
 
+    public Controller(String d, String v, String p, String q, String r, String a, String func) throws CustomException {
+        if(func.compareToIgnoreCase("r") == 0){
+            ReadDocentes(d);
+            ReadVeiculos(v);
+            ReadPublicacoes(p);
+            ReadQualis(q);
+            ReadRegras(r);
+            ReadAnoCredenciamento(a);
+            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("prog.dat"))) {
+                oos.writeObject(docentes);
+                oos.writeObject(veiculos);
+                oos.writeObject(publicacoes);
+                oos.writeObject(qualificacoes);
+                oos.writeObject(regras);
+                oos.writeObject(anoCredenciamento);
+                oos.close();
+            } catch (IOException ex) {
+                throw new CustomException("Erro de I/O");
+            }
+        }else if(func.compareToIgnoreCase("w") == 0){
+            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("prog.dat"))){
+                docentes = (Map<Long, Docente>) ois.readObject();
+                veiculos = (Map<String, Veiculo>) ois.readObject();
+                publicacoes = (ArrayList<Publicacao>) ois.readObject();
+                qualificacoes = (ArrayList<Qualificacao>) ois.readObject();
+                regras = (Regras) ois.readObject();
+                anoCredenciamento = (int) ois.readObject();
+                ois.close();
+                WriteRecredenciamentoFile();
+                WriteListaPublicacoes();
+                WriteStatistics();
+            } catch (IOException ex) {
+                throw new CustomException("Erro de I/O");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     public void ReadDocentes(String csvFile) throws CustomException {
         String line;
@@ -114,8 +148,8 @@ public final class Controller {
                 String sigla = token[0].trim();
                 String nome = token[1].trim();
                 char tipo = token[2].charAt(0);
-                if(!((tipo == 'C') || (tipo == 'P'))){
-                    throw new CustomException("Tipo de veículo desconhecido para veículo "+sigla+": "+tipo);
+                if (!((tipo == 'C') || (tipo == 'P'))) {
+                    throw new CustomException("Tipo de veículo desconhecido para veículo " + sigla + ": " + tipo);
                 }
                 double fdi;
                 try {
@@ -149,8 +183,8 @@ public final class Controller {
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
                 String titulo = token[2].trim();
-                if(!veiculos.containsKey(siglaVeiculo)){
-                    throw new CustomException("Sigla de veículo não definida usada na publicação \""+titulo+"\": "+siglaVeiculo);
+                if (!veiculos.containsKey(siglaVeiculo)) {
+                    throw new CustomException("Sigla de veículo não definida usada na publicação \"" + titulo + "\": " + siglaVeiculo);
                 }
                 String cdAutores = token[3].trim();
 
@@ -161,7 +195,7 @@ public final class Controller {
                 for (String lineToken31 : lineToken3) {
                     d = docentes.get(Long.parseLong(lineToken31));
                     if (d == null) {
-                        throw new CustomException("Código de docente não definido usado na publicação \""+titulo+"\": " + lineToken31);
+                        throw new CustomException("Código de docente não definido usado na publicação \"" + titulo + "\": " + lineToken31);
                     }
                     if (!listaAutores.contains(d)) {
                         listaAutores.add(d);
@@ -216,8 +250,8 @@ public final class Controller {
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
                 String nomeQualis = token[2].trim();
-                if(!veiculos.containsKey(siglaVeiculo)){
-                    throw new CustomException("Sigla de veículo não definida usada na qualificação do ano \""+ano+"\": "+siglaVeiculo);
+                if (!veiculos.containsKey(siglaVeiculo)) {
+                    throw new CustomException("Sigla de veículo não definida usada na qualificação do ano \"" + ano + "\": " + siglaVeiculo);
                 }
                 if (nomeQualis.equals("A1") || nomeQualis.equals("A2")
                         || nomeQualis.equals("B1") || nomeQualis.equals("B2")
