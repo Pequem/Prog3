@@ -52,5 +52,6 @@ public class Prog {
         
        c.WriteRecredenciamentoFile();
        c.WriteListaPublicacoes();
+       c.WriteStatistics();
     }
 }

@@ -14,6 +14,9 @@ public abstract class Publicacao {
 	private Map<Long,Docente> autores;
         
         
+    public Publicacao(){
+        
+    }
     public Publicacao(int ano,String titulo,int numero,Veiculo veiculo,
             Map<Long,Docente> autores,int pagInicial,int pagFinal){
         this.ano= ano;
@@ -57,6 +60,18 @@ public abstract class Publicacao {
 
     public Map<Long, Docente> getAutores() {
         return autores;
+    }
+    
+    public ArrayList<Publicacao> getAllByQualis(Qualis q, ArrayList<Publicacao>p){
+        ArrayList<Publicacao> _p = new ArrayList<>();
+        
+        for(Publicacao _pub:p){
+            if(_pub.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().equals(q)){
+                _p.add(_pub);
+            }
+        }
+        
+        return _p;
     }
 
     public double calcularPontosQualificacoesVeiculo(Veiculo v,int ano, Regras r){
