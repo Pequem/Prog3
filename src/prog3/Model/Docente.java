@@ -56,7 +56,6 @@ public class Docente implements Comparable<Docente>{
                     num2 += tp.calcularPontosQualificacoesVeiculo(tp.getVeiculo(),ano,regras);
                     
                     }
-                    //verificar se foi cadastrado ou nao 
                 }
                
             }
