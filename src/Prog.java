@@ -20,20 +20,36 @@ public class Prog {
         //---------------- LISTAS/HashMaps------------------
         //Scanner s = new Scanner(System.in);
         //s.close();
-        
-        int leu=0;
-        int optionRead=0,optionWrite=0;
-        
-        
+        /*os parametros podem ser passados de qualquer forma
+                sempre organizalos antes de ler os arquivos
+         */
         //LEITURA DOS ARQUIVOS
-        for(int k = 2; k< args.length;k++){
-            if(args[k].compareTo("--read-only") == 0){
-                optionRead=1;
-            }
-            if(args[k].compareTo("--write-only") == 0){
-                optionWrite=1;
+        for (int j = 2; j < args.length;j++) {
+            switch (args[j]) {
+                case "-d":
+                    c.ReadDocentes(args[++j]);
+                    break;
+                case "-v":
+                    c.ReadVeiculos(args[++j]);
+                    break;
+                case "-p":
+                    c.ReadPublicacoes(args[++j]);
+                    break;
+                case "-q":
+                    c.ReadQualis(args[++j]);
+                    break;
+                case "-r":
+                    c.ReadRegras(args[++j]);
+                    break;
+                case "-a":
+                    c.ReadAnoCredenciamento(args[++j]);
+                    break;
+                default:
+                    System.out.println("Comando " + args[j] + " é invalido");
+                    return;
             }
         }
+<<<<<<< HEAD
         if((optionRead ==0) || (optionRead==1)){
             for (int k = 2;k < args.length;k++){
                 for (int j = 2; j < args.length;j++) {
@@ -71,16 +87,11 @@ public class Prog {
                 System.out.println("READ ONLY ALL THE WAY");
                 
             }
+=======
+>>>>>>> parent of 9b4eaff... 032
         
-        }
-       
-        if(optionWrite ==0){
-            c.WriteRecredenciamentoFile();
-            c.WriteListaPublicacoes();
-            c.WriteStatistics();
-        }
-        if(optionWrite ==1){
-            //WRITE ONLY OPTION
-        }
+       c.WriteRecredenciamentoFile();
+       c.WriteListaPublicacoes();
+       c.WriteStatistics();
     }
 }
