@@ -42,33 +42,33 @@ public final class Controller {
     private int anoCredenciamento;
     
 
-    private final String cvsSplitBy = ";";
+    private final String csvSplitBy = ";";
 
     public Controller() {
 
     }
 
-    public Controller(String d, String v, String p, String q, String r, String a) throws CustomException {
-        ReadDocentes(d);
-        ReadVeiculos(v);
-        ReadPublicacoes(p);
-        ReadQualis(q);
-        ReadRegras(r);
-        ReadAnoCredenciamento(a);
-        WriteRecredenciamentoFile();
+    public Controller(String docenteNameFile, String veiculoNameFile, String publicacaoNameFile, String qualisNameFile, String regrasNameFile, String ano) throws CustomException {
+        ReadDocentes(docenteNameFile);
+        ReadVeiculos(veiculoNameFile);
+        ReadPublicacoes(publicacaoNameFile);
+        ReadQualis(qualisNameFile);
+        ReadRegras(regrasNameFile);
+        ReadAnoCredenciamento(ano);
+        WriteRecredenciamento();
         WriteListaPublicacoes();
         WriteStatistics();
     }
 
-    public Controller(String d, String v, String p, String q, String r, String a, String func) throws CustomException {
-        if(func.compareToIgnoreCase("r") == 0){
-            ReadDocentes(d);
-            ReadVeiculos(v);
-            ReadPublicacoes(p);
-            ReadQualis(q);
-            ReadRegras(r);
-            ReadAnoCredenciamento(a);
-            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("prog.dat"))) {
+    public Controller(String docenteNameFile, String veiculoNameFile, String publicacaoNameFile, String qualisNameFile, String regrasNameFile, String ano, String func) throws CustomException {
+        if (func.compareToIgnoreCase("r") == 0) {
+            ReadDocentes(docenteNameFile);
+            ReadVeiculos(veiculoNameFile);
+            ReadPublicacoes(publicacaoNameFile);
+            ReadQualis(qualisNameFile);
+            ReadRegras(regrasNameFile);
+            ReadAnoCredenciamento(ano);
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("recredenciamento.dat"))) {
                 oos.writeObject(docentes);
                 oos.writeObject(veiculos);
                 oos.writeObject(publicacoes);
@@ -79,8 +79,8 @@ public final class Controller {
             } catch (IOException ex) {
                 throw new CustomException("Erro de I/O");
             }
-        }else if(func.compareToIgnoreCase("w") == 0){
-            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("prog.dat"))){
+        } else if (func.compareToIgnoreCase("w") == 0) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("recredenciamento.dat"))) {
                 docentes = (Map<Long, Docente>) ois.readObject();
                 veiculos = (Map<String, Veiculo>) ois.readObject();
                 publicacoes = (ArrayList<Publicacao>) ois.readObject();
@@ -88,13 +88,13 @@ public final class Controller {
                 regras = (Regras) ois.readObject();
                 anoCredenciamento = (int) ois.readObject();
                 ois.close();
-                WriteRecredenciamentoFile();
+                WriteRecredenciamento();
                 WriteListaPublicacoes();
                 WriteStatistics();
             } catch (IOException ex) {
                 throw new CustomException("Erro de I/O");
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+
             }
         }
     }
@@ -107,7 +107,7 @@ public final class Controller {
             while ((line = br.readLine()) != null) {
 
                 // usar o ; e \n como delimitador 
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(csvSplitBy, '\n');
                 //array de docentes criados pata store all of the docentes created.
 
                 long cod = Long.parseLong(token[0].trim());
@@ -144,7 +144,7 @@ public final class Controller {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(csvSplitBy, '\n');
 
                 String sigla = token[0].trim();
                 String nome = token[1].trim();
@@ -165,7 +165,6 @@ public final class Controller {
                 } catch (ParseException ex) {
                     throw new CustomException("Erro de formatação");
                 }
-
             }
         } catch (IOException e) {
             throw new CustomException("Erro de I/O");
@@ -179,7 +178,7 @@ public final class Controller {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(csvSplitBy, '\n');
 
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
@@ -208,9 +207,9 @@ public final class Controller {
                 String localConf = token[6].trim();
                 int pagInicial = Integer.parseInt(token[7].trim());
                 int pagFinal = Integer.parseInt(token[8].trim());
-
-                if (volumeStr.equals("")) {
-                    Publicacao c1 = new Conferencia(localConf, ano, titulo, numero, veiculos.get(siglaVeiculo), listaAutores, pagInicial, pagFinal);
+                Veiculo veiculo = veiculos.get(siglaVeiculo);
+                if ((veiculo.getTipo() == 'C') || (veiculo.getTipo() == 'c')) {
+                    Publicacao c1 = new Conferencia(localConf, ano, titulo, numero, veiculo, listaAutores, pagInicial, pagFinal);
                     publicacoes.add(c1);
 
                     //adicionando as publicacoes nos veiculos 
@@ -221,7 +220,7 @@ public final class Controller {
                         docentes.get(Long.parseLong(lineToken31)).setPublicacaoDocente(c1);
                     }
 
-                } else if (localConf.equals("")) {
+                } else if ((veiculo.getTipo() == 'p') || (veiculo.getTipo() == 'P')) {
                     int volume = Integer.parseInt(volumeStr);
                     Publicacao p1 = new Periodico(volume, ano, titulo, numero, veiculos.get(siglaVeiculo), listaAutores, pagInicial, pagFinal);
                     publicacoes.add(p1);
@@ -246,7 +245,7 @@ public final class Controller {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             br.readLine();
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(csvSplitBy, '\n');
 
                 int ano = Integer.parseInt(token[0].trim());
                 String siglaVeiculo = token[1].trim();
@@ -288,7 +287,7 @@ public final class Controller {
             br.readLine();
 
             while ((line = br.readLine()) != null) {
-                String[] token = line.split(cvsSplitBy, '\n');
+                String[] token = line.split(csvSplitBy, '\n');
                 Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
                 Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
                 String inicioVigencia=null;
@@ -359,7 +358,7 @@ public final class Controller {
         anoCredenciamento = Integer.parseInt(ano);
     }
 
-    public void WriteRecredenciamentoFile() throws CustomException {
+    public void WriteRecredenciamento() throws CustomException {
 
         //faz uma copia de docentes para docentesOrdem
         Map<Long, Docente> docentesOrdem = new HashMap<>();
@@ -393,41 +392,41 @@ public final class Controller {
                 //Escrita linha por linha segundo regras 
                 if (entry.getValue().isCoordenador() == true) {
                     fileWriter.append(entry.getValue().getNome());
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append(sPonto);
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append("Coordenador");
                     fileWriter.append("\n");
 
                 } else if (subAno < 3) {
                     fileWriter.append(entry.getValue().getNome());
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append(sPonto);
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append("PPJ");
                     fileWriter.append("\n");
 
                 } else if (idade > 60) {
                     fileWriter.append(entry.getValue().getNome());
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append(sPonto);
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append("PPS");
                     fileWriter.append("\n");
 
                 } else if (pontuacao >= regras.getPontuacaoMin()) {
                     fileWriter.append(entry.getValue().getNome());
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append(sPonto);
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append("Sim");
                     fileWriter.append("\n");
 
                 } else {
                     fileWriter.append(entry.getValue().getNome());
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append(sPonto);
-                    fileWriter.append(cvsSplitBy);
+                    fileWriter.append(csvSplitBy);
                     fileWriter.append("Não");
                     fileWriter.append("\n");
 
@@ -458,15 +457,15 @@ public final class Controller {
 
         publicacoes.sort((Publicacao p1, Publicacao p2) -> p1.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().compareTo(p2.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()));
         try (FileWriter f = new FileWriter("2-publicacoes.csv")) {
-            f.append("Ano" + cvsSplitBy + "Sigla Veículo" + cvsSplitBy + "Veículo"
-                    + cvsSplitBy + "Qualis" + cvsSplitBy + "Fator de Impacto" + cvsSplitBy
-                    + "Título" + cvsSplitBy + "Docentes\n");
+            f.append("Ano" + csvSplitBy + "Sigla Veículo" + csvSplitBy + "Veículo"
+                    + csvSplitBy + "Qualis" + csvSplitBy + "Fator de Impacto" + csvSplitBy
+                    + "Título" + csvSplitBy + "Docentes\n");
 
             for (Publicacao _p : publicacoes) {
                 String fatorImp = String.format("%.3f", _p.getVeiculo().getFatorDeImpacto());
-                f.append(_p.getAno() + cvsSplitBy + _p.getVeiculo().getSigla() + cvsSplitBy
-                        + _p.getVeiculo().getNome() + cvsSplitBy + _p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
-                        + cvsSplitBy + fatorImp + cvsSplitBy + _p.getTitulo() + cvsSplitBy);
+                f.append(_p.getAno() + csvSplitBy + _p.getVeiculo().getSigla() + csvSplitBy
+                        + _p.getVeiculo().getNome() + csvSplitBy + _p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
+                        + csvSplitBy + fatorImp + csvSplitBy + _p.getTitulo() + csvSplitBy);
 
                 int tamanho = 0;
                 for (Docente _d : _p.getAutores()) {
@@ -491,14 +490,14 @@ public final class Controller {
         double ratio;
         try (FileWriter f = new FileWriter("3-estatisticas.csv")) {
 
-            f.append("Qualis" + cvsSplitBy + "Qtd. Artigos" + cvsSplitBy + "Média Artigos / Docente\n");
+            f.append("Qualis" + csvSplitBy + "Qtd. Artigos" + csvSplitBy + "Média Artigos / Docente\n");
 
             for (Qualis q : Qualis.values()) {
 
                 pArray = publicacoes.get(0).getAllByQualis(q, publicacoes);
                 ratio = publicacoes.get(0).getRatioByQualis(q, publicacoes);
                 String mediaArtigosPorDocente = String.format("%.2f", ratio);
-                f.append(q.getNome() + cvsSplitBy + pArray.size() + cvsSplitBy + mediaArtigosPorDocente + "\n");
+                f.append(q.getNome() + csvSplitBy + pArray.size() + csvSplitBy + mediaArtigosPorDocente + "\n");
 
             }
 
