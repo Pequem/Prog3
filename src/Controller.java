@@ -60,14 +60,14 @@ public final class Controller {
     }
 
     public Controller(String docenteNameFile, String veiculoNameFile, String publicacaoNameFile, String qualisNameFile, String regrasNameFile, String ano, String func) throws CustomException {
-        if(func.compareToIgnoreCase("r") == 0){
+        if (func.compareToIgnoreCase("r") == 0) {
             ReadDocentes(docenteNameFile);
             ReadVeiculos(veiculoNameFile);
             ReadPublicacoes(publicacaoNameFile);
             ReadQualis(qualisNameFile);
             ReadRegras(regrasNameFile);
             ReadAnoCredenciamento(ano);
-            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("recredenciamento.dat"))) {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("recredenciamento.dat"))) {
                 oos.writeObject(docentes);
                 oos.writeObject(veiculos);
                 oos.writeObject(publicacoes);
@@ -78,8 +78,8 @@ public final class Controller {
             } catch (IOException ex) {
                 throw new CustomException("Erro de I/O");
             }
-        }else if(func.compareToIgnoreCase("w") == 0){
-            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("recredenciamento.dat"))){
+        } else if (func.compareToIgnoreCase("w") == 0) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("recredenciamento.dat"))) {
                 docentes = (Map<Long, Docente>) ois.readObject();
                 veiculos = (Map<String, Veiculo>) ois.readObject();
                 publicacoes = (ArrayList<Publicacao>) ois.readObject();
@@ -93,7 +93,7 @@ public final class Controller {
             } catch (IOException ex) {
                 throw new CustomException("Erro de I/O");
             } catch (ClassNotFoundException ex) {
-                
+
             }
         }
     }
@@ -164,7 +164,6 @@ public final class Controller {
                 } catch (ParseException ex) {
                     throw new CustomException("Erro de formatação");
                 }
-
             }
         } catch (IOException e) {
             throw new CustomException("Erro de I/O");
@@ -207,9 +206,9 @@ public final class Controller {
                 String localConf = token[6].trim();
                 int pagInicial = Integer.parseInt(token[7].trim());
                 int pagFinal = Integer.parseInt(token[8].trim());
-
-                if (volumeStr.equals("")) {
-                    Publicacao c1 = new Conferencia(localConf, ano, titulo, numero, veiculos.get(siglaVeiculo), listaAutores, pagInicial, pagFinal);
+                Veiculo veiculo = veiculos.get(siglaVeiculo);
+                if ((veiculo.getTipo() == 'C') || (veiculo.getTipo() == 'c')) {
+                    Publicacao c1 = new Conferencia(localConf, ano, titulo, numero, veiculo, listaAutores, pagInicial, pagFinal);
                     publicacoes.add(c1);
 
                     //adicionando as publicacoes nos veiculos 
@@ -220,7 +219,7 @@ public final class Controller {
                         docentes.get(Long.parseLong(lineToken31)).setPublicacaoDocente(c1);
                     }
 
-                } else if (localConf.equals("")) {
+                } else if ((veiculo.getTipo() == 'p') || (veiculo.getTipo() == 'P')) {
                     int volume = Integer.parseInt(volumeStr);
                     Publicacao p1 = new Periodico(volume, ano, titulo, numero, veiculos.get(siglaVeiculo), listaAutores, pagInicial, pagFinal);
                     publicacoes.add(p1);
