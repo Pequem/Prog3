@@ -290,7 +290,9 @@ public final class Controller {
                 String[] token = line.split(csvSplitBy, '\n');
                 Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
                 Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
-                String inicioVigencia=null;
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    
+                String inicioVigencia= sdf.format(dateInicio);
                 String sQualis = token[2].trim();
                 
                 
@@ -336,12 +338,11 @@ public final class Controller {
                     int ptMinima = Integer.parseInt(token[6].trim());
 
                     regras = new Regras(fm, dateInicio, dateFim, qtdAnos, ptMinima, mqp);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    inicioVigencia =  sdf.format(dateInicio);
+                    
                     
                 }
                 else{
-                    throw new CustomException("Qualis desconhecido para regras de  " + inicioVigencia
+                    throw new CustomException("Qualis desconhecido para regras de " + inicioVigencia
                             +  ": " + qualisErro);
                 }
             }
