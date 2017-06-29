@@ -13,8 +13,12 @@ public class Prog {
 
         //LEITURA DOS ARQUIVOS
         String d = null, v = null, p = null, q = null, r = null, a = null, f = null;
-        for (int j = 2; j < args.length; j++) {
+        for (int j = 0; j < args.length; j++) {
             switch (args[j]) {
+                case "java": //netbeans passa esses dois argumenos para todos os programas
+                    break;
+                case "trabalho.Main":
+                    break;
                 case "-d":
                     d = args[++j];
                     break;

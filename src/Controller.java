@@ -365,7 +365,7 @@ public final class Controller {
         mapDocentesOrdenado.putAll(docentesOrdem); // estao ordenados em ordem alfabetica
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter("1-recrendenciamento.csv");
+            fileWriter = new FileWriter("1-recredenciamento.csv");
             //cabeçalho do arquivo csv
             fileWriter.append("Docente;Pontuação;Recredenciado?");
             fileWriter.append("\n");
