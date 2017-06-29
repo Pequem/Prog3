@@ -119,7 +119,7 @@ public final class Controller {
                     }
 
                     if (docentes.containsKey(cod)) {
-                        throw new CustomException("Código repetido para Docente " + cod);
+                        throw new CustomException("Código repetido para docente: " + cod);
                     } else {
                         docentes.put(cod, new Docente(cod, token[1], date1, date2, coord));
                     }
@@ -155,7 +155,7 @@ public final class Controller {
                     String issn = token[4].trim();
 
                     if (veiculos.containsKey(sigla)) {
-                        throw new CustomException("Código repetido para Veiculo " + sigla);
+                        throw new CustomException("Código repetido para veículo: " + sigla);
                     } else {
                         veiculos.put(sigla, new Veiculo(sigla, nome, tipo, fdi, issn));
                     }
