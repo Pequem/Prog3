@@ -1,10 +1,9 @@
 
-import java.text.ParseException;
 import prog3.Model.CustomException;
 
 public class Prog {
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args){
 
         //ler como parametros 
         if (args.length == 0) {
