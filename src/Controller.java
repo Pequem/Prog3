@@ -67,7 +67,7 @@ public final class Controller {
             ReadQualis(q);
             ReadRegras(r);
             ReadAnoCredenciamento(a);
-            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("prog.dat"))) {
+            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("recredenciamento.dat"))) {
                 oos.writeObject(docentes);
                 oos.writeObject(veiculos);
                 oos.writeObject(publicacoes);
@@ -79,7 +79,7 @@ public final class Controller {
                 throw new CustomException("Erro de I/O");
             }
         }else if(func.compareToIgnoreCase("w") == 0){
-            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("prog.dat"))){
+            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("recredenciamento.dat"))){
                 docentes = (Map<Long, Docente>) ois.readObject();
                 veiculos = (Map<String, Veiculo>) ois.readObject();
                 publicacoes = (ArrayList<Publicacao>) ois.readObject();
