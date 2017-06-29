@@ -439,12 +439,10 @@ public final class Controller {
             throw new CustomException("Erro de I/O");
         } finally {
             try {
-                fileWriter.flush();
                 fileWriter.close();
             } catch (IOException e) {
                 throw new CustomException("Erro de I/O");
             }
-
         }
     }
 
@@ -457,28 +455,28 @@ public final class Controller {
         publicacoes.sort((Publicacao p1, Publicacao p2) -> p2.getAno() - p1.getAno());
 
         publicacoes.sort((Publicacao p1, Publicacao p2) -> p1.getVeiculo().getQualificacoesVeiculo().get(0).getQualis().compareTo(p2.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()));
-        try (FileWriter f = new FileWriter("2-publicacoes.csv")) {
-            f.append("Ano" + csvSplitBy + "Sigla Veículo" + csvSplitBy + "Veículo"
+        try (FileWriter fw = new FileWriter("2-publicacoes.csv")) {
+            fw.append("Ano" + csvSplitBy + "Sigla Veículo" + csvSplitBy + "Veículo"
                     + csvSplitBy + "Qualis" + csvSplitBy + "Fator de Impacto" + csvSplitBy
                     + "Título" + csvSplitBy + "Docentes\n");
 
-            for (Publicacao _p : publicacoes) {
-                String fatorImp = String.format("%.3f", _p.getVeiculo().getFatorDeImpacto());
-                f.append(_p.getAno() + csvSplitBy + _p.getVeiculo().getSigla() + csvSplitBy
-                        + _p.getVeiculo().getNome() + csvSplitBy + _p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
-                        + csvSplitBy + fatorImp + csvSplitBy + _p.getTitulo() + csvSplitBy);
+            for (Publicacao p : publicacoes) {
+                String fatorImp = String.format("%.3f", p.getVeiculo().getFatorDeImpacto());
+                fw.append(p.getAno() + csvSplitBy + p.getVeiculo().getSigla() + csvSplitBy
+                        + p.getVeiculo().getNome() + csvSplitBy + p.getVeiculo().getQualificacoesVeiculo().get(0).getQualis()
+                        + csvSplitBy + fatorImp + csvSplitBy + p.getTitulo() + csvSplitBy);
 
                 int tamanho = 0;
-                for (Docente _d : _p.getAutores()) {
-
-                    f.append(_d.getNome());
-                    if (tamanho < (_p.getAutores().size() - 1)) {
-                        f.append(",");
+                for (Docente d : p.getAutores()) {
+                    
+                    fw.append(d.getNome());
+                    if (tamanho < (p.getAutores().size() - 1)) {
+                        fw.append(",");
                     }
                     tamanho++;
 
                 }
-                f.append("\n");
+                fw.append("\n");
             }
         } catch (IOException ex) {
             throw new CustomException("Erro de I/O");
@@ -489,16 +487,16 @@ public final class Controller {
         ArrayList<Publicacao> pArray;
 
         double ratio;
-        try (FileWriter f = new FileWriter("3-estatisticas.csv")) {
+        try (FileWriter fw = new FileWriter("3-estatisticas.csv")) {
 
-            f.append("Qualis" + csvSplitBy + "Qtd. Artigos" + csvSplitBy + "Média Artigos / Docente\n");
+            fw.append("Qualis" + csvSplitBy + "Qtd. Artigos" + csvSplitBy + "Média Artigos / Docente\n");
 
             for (Qualis q : Qualis.values()) {
 
                 pArray = publicacoes.get(0).getAllByQualis(q, publicacoes);
                 ratio = publicacoes.get(0).getRatioByQualis(q, publicacoes);
                 String mediaArtigosPorDocente = String.format("%.2f", ratio);
-                f.append(q.getNome() + csvSplitBy + pArray.size() + csvSplitBy + mediaArtigosPorDocente + "\n");
+                fw.append(q.getNome() + csvSplitBy + pArray.size() + csvSplitBy + mediaArtigosPorDocente + "\n");
 
             }
 
