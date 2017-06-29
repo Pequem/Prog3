@@ -5,13 +5,13 @@ package prog3.Model;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author rodri
  */
-public class CustomException extends Exception{
-    public CustomException(String msg){
+public class CustomException extends Exception {
+
+    public CustomException(String msg) {
         super(msg);
     }
 }

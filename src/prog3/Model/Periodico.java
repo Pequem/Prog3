@@ -11,13 +11,14 @@ import java.util.ArrayList;
  *
  * @author rodri
  */
-public class Periodico extends Publicacao{
+public class Periodico extends Publicacao {
+
     private final int volume;
-    
-    public Periodico(int volume, int ano,String titulo,int numero,Veiculo veiculo,
-                ArrayList<Docente> autores,int pagInicial,int pagFinal){
-        super(ano,titulo,numero,veiculo,autores,pagInicial,pagFinal);
-        this.volume=volume;
-        
+
+    public Periodico(int volume, int ano, String titulo, int numero, Veiculo veiculo,
+            ArrayList<Docente> autores, int pagInicial, int pagFinal) {
+        super(ano, titulo, numero, veiculo, autores, pagInicial, pagFinal);
+        this.volume = volume;
+
     }
 }

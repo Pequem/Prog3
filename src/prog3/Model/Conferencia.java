@@ -12,11 +12,12 @@ import java.util.ArrayList;
  * @author rodri
  */
 public class Conferencia extends Publicacao {
+
     private final String local;
-    
-    public Conferencia (String local, int ano,String titulo,int numero,Veiculo veiculo,
-                ArrayList<Docente> autores,int pagInicial,int pagFinal){
-        super(ano,titulo,numero,veiculo,autores,pagInicial,pagFinal);
-        this.local=local;
+
+    public Conferencia(String local, int ano, String titulo, int numero, Veiculo veiculo,
+            ArrayList<Docente> autores, int pagInicial, int pagFinal) {
+        super(ano, titulo, numero, veiculo, autores, pagInicial, pagFinal);
+        this.local = local;
     }
 }

@@ -15,17 +15,18 @@ import java.util.Map;
  * @param <Long>
  * @param <Docente>
  */
-public class ValueComparator <Long, Docente extends Comparable<Docente>> implements Comparator<Long>{
-        //criada para comparar o map 
-	Map<Long, Docente> map = new HashMap<>();
- 
-	public ValueComparator(Map<Long, Docente> map){
-		this.map.putAll(map);
-	}
- 
-	@Override
-	public int compare(Long s1, Long s2) {
-                
-		return map.get(s1).compareTo(map.get(s2));//descending order	
-	}
+public class ValueComparator<Long, Docente extends Comparable<Docente>> implements Comparator<Long> {
+    //criada para comparar o map 
+
+    Map<Long, Docente> map = new HashMap<>();
+
+    public ValueComparator(Map<Long, Docente> map) {
+        this.map.putAll(map);
+    }
+
+    @Override
+    public int compare(Long s1, Long s2) {
+
+        return map.get(s1).compareTo(map.get(s2));//descending order	
+    }
 }

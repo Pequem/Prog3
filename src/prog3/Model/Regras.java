@@ -14,26 +14,27 @@ import java.util.Map;
  * @author user
  */
 public class Regras implements Serializable {
+
     private double fatorMult;
     private Date dataInicio;
     private Date dataFim;
     private int qtdAnos;
     private int pontuacaoMin;
-    private Map<Qualis,Pontuacao> pontuacoesRegras;
-    
-    public Regras(){
-        
+    private Map<Qualis, Pontuacao> pontuacoesRegras;
+
+    public Regras() {
+
     }
-    public Regras(double fatorMult,Date dataInicio,Date dataFim,int qtdAnos,
-            int pontuacaoMin,Map<Qualis,Pontuacao> pontuacoesRegras){
-        this.fatorMult=fatorMult;
-        this.dataInicio=dataInicio;
-        this.dataFim=dataFim;
-        this.qtdAnos=qtdAnos;
-        this.pontuacaoMin=pontuacaoMin;
-        this.pontuacoesRegras=pontuacoesRegras;
-        
-        
+
+    public Regras(double fatorMult, Date dataInicio, Date dataFim, int qtdAnos,
+            int pontuacaoMin, Map<Qualis, Pontuacao> pontuacoesRegras) {
+        this.fatorMult = fatorMult;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.qtdAnos = qtdAnos;
+        this.pontuacaoMin = pontuacaoMin;
+        this.pontuacoesRegras = pontuacoesRegras;
+
     }
 
     public double getFatorMult() {
@@ -60,13 +61,4 @@ public class Regras implements Serializable {
         return pontuacoesRegras;
     }
 
-    public void printRegrasMapa(){
-        
-        for (Map.Entry <Qualis,Pontuacao> entry : pontuacoesRegras.entrySet()) {
-            System.out.println(entry.getKey()+" : "+entry.getValue().getValor());
-        }
-    }
-    
-    
-    
 }

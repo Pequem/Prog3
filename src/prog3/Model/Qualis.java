@@ -12,16 +12,14 @@ import java.util.ArrayList;
  * @author user
  */
 public enum Qualis {
-    A1("A1"),A2("A2"),B1("B1"),B2("B2"),B3("B3"),B4("B4"),B5("B5"),C("C");
-    
+    A1("A1"), A2("A2"), B1("B1"), B2("B2"), B3("B3"), B4("B4"), B5("B5"), C("C");
+
     private String nome;
     private ArrayList<Qualificacao> qualificacoesQualis;
     private ArrayList<Pontuacao> pontuacoesQualis;
 
-   
-    
-    private Qualis(String nome){
-        this.nome=nome;
+    private Qualis(String nome) {
+        this.nome = nome;
     }
 
     public void setNome(String nome) {
@@ -31,29 +29,23 @@ public enum Qualis {
     public String getNome() {
         return nome;
     }
-    
-    
-    public void setQualificacaoQualis(Qualificacao q){
-        if(qualificacoesQualis == null){
+
+    public void setQualificacaoQualis(Qualificacao q) {
+        if (qualificacoesQualis == null) {
             qualificacoesQualis = new ArrayList<>();
             qualificacoesQualis.add(q);
-        }
-        else{
+        } else {
             qualificacoesQualis.add(q);
         }
     }
-    
-    public void setPontuacoesQualis(Pontuacao ponto){
-        if(pontuacoesQualis == null){
+
+    public void setPontuacoesQualis(Pontuacao ponto) {
+        if (pontuacoesQualis == null) {
             pontuacoesQualis = new ArrayList<>();
             pontuacoesQualis.add(ponto);
-        }
-        else{
+        } else {
             pontuacoesQualis.add(ponto);
         }
     }
-    
-    
-    
-    
+
 }

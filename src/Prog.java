@@ -3,7 +3,7 @@ import prog3.Model.CustomException;
 
 public class Prog {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         //ler como parametros 
         if (args.length == 0) {
@@ -44,14 +44,14 @@ public class Prog {
                     return;
             }
         }
-        try{
-            if(f == null){
-                new Controller(d,v,p,q,r,a);
-            }else{
-                new Controller(d,v,p,q,r,a,f);
+        try {
+            if (f == null) {
+                new Controller(d, v, p, q, r, a);
+            } else {
+                new Controller(d, v, p, q, r, a, f);
             }
-        }catch(CustomException e){
-            System.out.println(e.getMessage()+".");
+        } catch (CustomException e) {
+            System.out.println(e.getMessage() + ".");
         }
     }
 }

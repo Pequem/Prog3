@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import prog3.Model.*;
 
 /*
@@ -40,7 +38,6 @@ public final class Controller {
     private ArrayList<Qualificacao> qualificacoes = new ArrayList<>();
     private Regras regras = new Regras();
     private int anoCredenciamento;
-    
 
     private final String csvSplitBy = ";";
 
@@ -291,26 +288,25 @@ public final class Controller {
                 Date dateInicio = new SimpleDateFormat("dd/MM/yyyy").parse(token[0]);
                 Date dateFim = new SimpleDateFormat("dd/MM/yyyy").parse(token[1]);
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    
-                String inicioVigencia= sdf.format(dateInicio);
+
+                String inicioVigencia = sdf.format(dateInicio);
                 String sQualis = token[2].trim();
-                
-                
+
                 String[] lineQualis = sQualis.split(",");
-                int valid =0;
+                int valid = 0;
                 String qualisErro = null;
-                for(String lq : lineQualis){
-                    if((lq.compareTo("A1") != 0) && (lq.compareTo("A2") != 0) &&
-                       (lq.compareTo("B1") != 0) && (lq.compareTo("B2") != 0) &&
-                       (lq.compareTo("B3") != 0) && (lq.compareTo("B4") != 0) && 
-                       (lq.compareTo("B5") != 0) && (lq.compareTo("C") != 0)){
-                        qualisErro=lq;
-                        valid =1;
+                for (String lq : lineQualis) {
+                    if ((lq.compareTo("A1") != 0) && (lq.compareTo("A2") != 0)
+                            && (lq.compareTo("B1") != 0) && (lq.compareTo("B2") != 0)
+                            && (lq.compareTo("B3") != 0) && (lq.compareTo("B4") != 0)
+                            && (lq.compareTo("B5") != 0) && (lq.compareTo("C") != 0)) {
+                        qualisErro = lq;
+                        valid = 1;
                         break;
                     }
                 }
-                
-                if(valid == 0){
+
+                if (valid == 0) {
                     Map<Qualis, Pontuacao> mqp = new HashMap<>();
                     String sPontos = token[3].trim();
                     String[] linePontos = sPontos.split(",");
@@ -318,18 +314,16 @@ public final class Controller {
                     for (int i = 0; i < lineQualis.length; i++) {
                         Pontuacao pont = new Pontuacao(Integer.parseInt(linePontos[i]));
 
+                        Qualis qu1 = Qualis.valueOf(lineQualis[i]);
+                        Qualis qu2 = Qualis.valueOf(lineQualis[i]);
+                        if ((i + 1) < lineQualis.length) {
+                            qu2 = Qualis.valueOf(lineQualis[i + 1]);
+                        }
+                        for (Qualis temp : EnumSet.range(qu1, qu2)) {
+                            pont.setQualisPontuacoes(temp);
+                            mqp.put(temp, pont);
 
-                            Qualis qu1 = Qualis.valueOf(lineQualis[i]);
-                            Qualis qu2 = Qualis.valueOf(lineQualis[i]);
-                            if ((i + 1) < lineQualis.length) {
-                                qu2 = Qualis.valueOf(lineQualis[i + 1]);
-                            }
-                            for (Qualis temp : EnumSet.range(qu1, qu2)) {
-                                pont.setQualisPontuacoes(temp);
-                                mqp.put(temp, pont);
-
-                            }
-
+                        }
 
                     }
 
@@ -338,12 +332,10 @@ public final class Controller {
                     int ptMinima = Integer.parseInt(token[6].trim());
 
                     regras = new Regras(fm, dateInicio, dateFim, qtdAnos, ptMinima, mqp);
-                    
-                    
-                }
-                else{
+
+                } else {
                     throw new CustomException("Qualis desconhecido para regras de " + inicioVigencia
-                            +  ": " + qualisErro);
+                            + ": " + qualisErro);
                 }
             }
         } catch (IOException e) {
@@ -468,7 +460,7 @@ public final class Controller {
 
                 int tamanho = 0;
                 for (Docente d : p.getAutores()) {
-                    
+
                     fw.append(d.getNome());
                     if (tamanho < (p.getAutores().size() - 1)) {
                         fw.append(",");
